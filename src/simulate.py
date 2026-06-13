@@ -461,20 +461,28 @@ def main() -> None:
               for r in fixtures.itertuples(index=False)}
     hosts = cfg["venue"]["host_nations"]
 
-    # Resultados reales ya jugados (se fijan en la simulación Y se realimentan al modelo)
-    actuals, adf = {}, None
+    # ----- Resultados YA JUGADOS del Mundial 2026 -----
+    # Fuente principal: martj42 (ya están en matches_played; se actualizan re-corriendo `ingest`).
+    target = cfg["ingest"]["target_tournament"]
+    wc26 = played[(played["tournament"] == target) & (played["date"].dt.year == 2026)]
+    actuals = {frozenset([r.home_team, r.away_team]):
+               {"home": r.home_team, "away": r.away_team, "hg": int(r.home_score), "ag": int(r.away_score)}
+               for r in wc26.itertuples(index=False)}
+
+    # Override manual opcional (resultados que martj42 todavía no tiene)
     apath = PROJECT_ROOT / cfg["simulation"]["actual_results_file"]
+    extra = None
     if apath.exists():
         adf = pd.read_csv(apath)
-        adf["home"] = adf["home"].map(canonical_name)
-        adf["away"] = adf["away"].map(canonical_name)
-        actuals = {frozenset([r.home, r.away]):
-                   {"home": r.home, "away": r.away, "hg": int(r.home_goals), "ag": int(r.away_goals)}
-                   for r in adf.itertuples(index=False)}
-    print(f"Resultados reales cargados: {len(actuals)}")
-
-    # Realimentar lo jugado al entrenamiento (Elo + Dixon-Coles)
-    played_aug = pd.concat([played, actuals_to_training(adf)], ignore_index=True) if actuals else played
+        if not adf.empty and "home" in adf.columns:
+            adf["home"] = adf["home"].map(canonical_name)
+            adf["away"] = adf["away"].map(canonical_name)
+            extra = adf[[frozenset([r.home, r.away]) not in actuals for r in adf.itertuples(index=False)]]
+            for r in extra.itertuples(index=False):
+                actuals[frozenset([r.home, r.away])] = {"home": r.home, "away": r.away,
+                                                         "hg": int(r.home_goals), "ag": int(r.away_goals)}
+    n_manual = 0 if extra is None else len(extra)
+    print(f"Resultados jugados: {len(actuals)}  (martj42: {len(wc26)}, manual extra: {n_manual})")
 
     # Bajas/lesiones confirmadas (ajustan los partidos por jugar; no el histórico)
     av = cfg.get("availability", {})
@@ -482,10 +490,14 @@ def main() -> None:
     if unavailable:
         print(f"Bajas cargadas: {sum(len(v) for v in unavailable.values())} en {len(unavailable)} selecciones")
 
-    print("Construyendo modelo POST (actualizado con lo jugado + bajas)…")
+    # POST: martj42 ya incluye los jugados en `played`; sólo se suman los manuales extra (sin duplicar)
+    played_aug = pd.concat([played, actuals_to_training(extra)], ignore_index=True) if n_manual else played
+    # PRE: sin los jugados del Mundial 2026 → tracker honesto (sin leakage)
+    played_pre = played.drop(wc26.index)
+
+    print("Construyendo modelo POST (con lo jugado + bajas)…")
     blend_post = build_blend(played_aug, cfg, unavailable=unavailable)
-    # Modelo PRE (sin lo jugado ni bajas) para evaluar esos partidos sin leakage
-    blend_pre = build_blend(played, cfg, verbose=False) if actuals else blend_post
+    blend_pre = build_blend(played_pre, cfg, verbose=False) if len(actuals) else blend_post
 
     if actuals:  # mostrar el efecto en el Elo
         pre, post = blend_pre.elo.ratings, blend_post.elo.ratings

@@ -129,12 +129,13 @@ predicciones de cada partido.
 
 ## 🔁 Loop de resultados reales
 
-A medida que se juega el Mundial, se cargan los resultados en
-[`assets/actual_results.csv`](assets/actual_results.csv) y al re-correr `simulate.py` el sistema:
+A medida que se juega el Mundial, los resultados se toman **automáticamente de martj42** (re-corrés
+`python -m src.ingest` y los partidos jugados se rellenan solos, gratis). `assets/actual_results.csv`
+queda como **override manual opcional** para resultados que martj42 todavía no cargó. Al re-correr
+`simulate.py` el sistema:
 
-1. **Realimenta el modelo** — los partidos jugados se suman al entrenamiento y **actualizan el Elo**
-   (p. ej. Suiza −15 tras empatar siendo favorita). Las predicciones de los partidos *que faltan*
-   ya usan ese Elo actualizado → es un sistema de **actualización online**.
+1. **Realimenta el modelo** — los partidos jugados **actualizan el Elo** (p. ej. USA +32 tras ganar 4-1).
+   Las predicciones de los partidos *que faltan* ya usan ese Elo actualizado → **actualización online**.
 2. **Condiciona la simulación** — fija los resultados reales y re-simula solo lo que falta.
 3. **Trackea su propia precisión** — compara la predicción **pre-partido** contra la realidad
    (aciertos + RPS en vivo), usando un modelo *sin* esos resultados para que la evaluación sea
@@ -169,9 +170,12 @@ python -m src.api_football --all         # refresca resultados + lesiones
 python -m src.simulate                   # recalcula el torneo con lo nuevo
 ```
 
-La key se lee de una **variable de entorno** (nunca se versiona). Notas: el free tier alcanza de sobra;
-la disponibilidad de `/injuries` puede depender del plan (verificalo con `--status`); las lesiones de
-la API no traen la posición del jugador, así que usan el impacto *default*.
+La key se lee de una **variable de entorno** (nunca se versiona).
+
+> ⚠️ **El free tier de API-Football solo cubre temporadas 2022-2024** — para el Mundial **2026**
+> necesitás un plan **pago**. En el plan gratis: los **resultados** ya los cubre martj42 (vía `ingest`,
+> sección anterior) y las **lesiones** se cargan a mano. La API queda lista para cuando tengas plan pago
+> (o para análisis de datos 2022-2024). Las lesiones de la API tampoco traen posición → impacto *default*.
 
 ## 🚀 Instalación y uso
 
