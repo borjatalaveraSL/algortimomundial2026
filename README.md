@@ -156,6 +156,23 @@ menos; el arquero/defensa rival fuera → marcás más (con un tope por lado). M
 > *inference-time* sobre los partidos futuros (no toca el modelo base ni el backtest). Las magnitudes
 > son un prior heurístico **ajustable**, no validado con datos.
 
+## 🔌 Actualización automática (API-Football) — opcional
+
+En vez de cargar a mano, podés refrescar **resultados y lesiones** desde
+[API-Football](https://dashboard.api-football.com) (la única API gratis que cubre ambas cosas del
+Mundial). [`src/api_football.py`](src/api_football.py) escribe los **mismos CSV** que el modelo consume.
+
+```bash
+export APIFOOTBALL_KEY=tu_key          # key gratis (free tier: 100 req/día)
+python -m src.api_football --status     # prueba la conexión y el cupo
+python -m src.api_football --all         # refresca resultados + lesiones
+python -m src.simulate                   # recalcula el torneo con lo nuevo
+```
+
+La key se lee de una **variable de entorno** (nunca se versiona). Notas: el free tier alcanza de sobra;
+la disponibilidad de `/injuries` puede depender del plan (verificalo con `--status`); las lesiones de
+la API no traen la posición del jugador, así que usan el impacto *default*.
+
 ## 🚀 Instalación y uso
 
 ```bash
@@ -189,6 +206,7 @@ AlgoritmoPredict/
 │   ├── evaluate.py          # 4. backtest walk-forward + métricas
 │   ├── tune.py              # 5. optimización de hiperparámetros (RPS)
 │   ├── availability.py      #    ajuste por lesiones/bajas (inference-time)
+│   ├── api_football.py      #    refresco automático de resultados + lesiones (API, opcional)
 │   └── simulate.py          # 6. Monte Carlo del torneo (grupos + eliminatorias) + front
 ├── assets/
 │   ├── wc2026_groups.csv    # los 12 grupos oficiales (48 selecciones)

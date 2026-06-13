@@ -62,6 +62,15 @@ backtest:
   refit_every_days: 90    # re-entrenar el modelo cada N días (walk-forward, sin look-ahead)
   calibration_bins: 10    # bins para el diagrama de calibración
 
+api_football:
+  # Actualización automática de resultados + lesiones (api-sports.io).
+  # La key se lee de la variable de entorno (NUNCA se hardcodea ni se versiona).
+  base_url: "https://v3.football.api-sports.io"
+  key_env: "APIFOOTBALL_KEY"
+  league_id: null         # null => se descubre buscando "World Cup"
+  season: 2026
+  request_delay_s: 1.0    # pausa entre requests (respeta el límite por minuto)
+
 availability:
   # Ajuste por lesiones/bajas CONFIRMADAS (inference-time; NO se entrena).
   unavailable_file: "assets/unavailable_players.csv"  # carga manual de bajas
