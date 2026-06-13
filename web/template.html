@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mundial 2026 · Predictor — Fase de grupos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0d0b; --bg2:#0e1310; --panel:#111815; --panel2:#0c110e;
+    --ink:#eef3ec; --muted:#869488; --faint:#5b685e;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.04);
+    --lime:#c6f24e; --lime-soft:rgba(198,242,78,.13); --amber:#f2b53e;
+    --p1:#c6f24e; --p2:#4fb98a; --p3:#d9a441; --p4:#3c423e;
+    --display:'Big Shoulders Display',sans-serif;
+    --body:'Hanken Grotesk',system-ui,sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--body);
+    line-height:1.45; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+    background-image:
+      radial-gradient(1100px 620px at 78% -8%, rgba(198,242,78,.10), transparent 60%),
+      radial-gradient(900px 600px at 8% 6%, rgba(79,185,138,.07), transparent 55%),
+      repeating-linear-gradient(0deg, transparent 0 38px, rgba(255,255,255,.014) 38px 39px);
+    background-attachment:fixed;
+  }
+  /* grano */
+  body::after{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:9; opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- HEADER ---------- */
+  header{max-width:1280px; margin:0 auto; padding:54px 26px 22px; position:relative}
+  .kicker{font-family:var(--mono); font-size:11px; letter-spacing:.42em; text-transform:uppercase;
+    color:var(--lime); display:flex; align-items:center; gap:12px; margin-bottom:14px}
+  .kicker::before{content:""; width:34px; height:2px; background:var(--lime)}
+  h1{font-family:var(--display); font-weight:900; line-height:.84; letter-spacing:-.01em;
+    font-size:clamp(46px,9vw,124px); text-transform:uppercase}
+  h1 em{font-style:normal; color:var(--lime); display:block;
+    -webkit-text-stroke:1.5px var(--lime); color:transparent}
+  .sub{margin-top:18px; max-width:680px; color:var(--muted); font-size:15.5px}
+  .meta{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px}
+  .chip{font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--ink);
+    border:1px solid var(--line); background:var(--panel2); padding:7px 12px; border-radius:999px}
+  .chip b{color:var(--lime); font-weight:700}
+  .chip.amber b{color:var(--amber)}
+
+  /* ---------- LEGEND ---------- */
+  .legend{max-width:1280px; margin:6px auto 0; padding:0 26px; display:flex; flex-wrap:wrap;
+    gap:18px 26px; align-items:center; color:var(--muted); font-size:12.5px}
+  .legend .sw{display:inline-flex; align-items:center; gap:7px}
+  .legend i{width:13px; height:13px; border-radius:3px; display:inline-block}
+  .legend .qz{border-left:3px solid var(--lime); padding-left:8px}
+
+  /* ---------- BOARD ---------- */
+  main{max-width:1280px; margin:0 auto; padding:30px 26px 70px;
+    display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(372px,1fr))}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line); border-radius:16px; padding:18px 18px 14px; position:relative; overflow:hidden;
+    opacity:0; transform:translateY(18px); transition:opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1)}
+  .card.show{opacity:1; transform:none}
+  .card::before{content:""; position:absolute; inset:0 0 auto 0; height:2px;
+    background:linear-gradient(90deg,var(--lime),transparent 70%)}
+  .ghost{position:absolute; right:6px; top:-26px; font-family:var(--display); font-weight:900;
+    font-size:150px; line-height:1; color:rgba(255,255,255,.035); pointer-events:none; user-select:none}
+  .ch{display:flex; align-items:baseline; gap:12px; margin-bottom:4px; position:relative}
+  .glabel{font-family:var(--display); font-weight:800; font-size:13px; letter-spacing:.32em;
+    text-transform:uppercase; color:var(--muted)}
+  .gletter{font-family:var(--display); font-weight:900; font-size:30px; color:var(--lime); line-height:1}
+  .fav{margin-left:auto; font-size:11.5px; color:var(--muted); text-align:right}
+  .fav b{color:var(--ink); font-weight:600}
+
+  .team{display:grid; grid-template-columns:18px 26px 1fr auto auto; align-items:center; gap:10px;
+    padding:9px 8px 5px; border-radius:9px; position:relative}
+  .team + .team{border-top:1px solid var(--line2)}
+  .team.qz{background:var(--lime-soft)}
+  .team.qz::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:3px;
+    background:var(--lime); border-radius:2px}
+  .rank{font-family:var(--mono); font-size:12px; color:var(--faint); text-align:center}
+  .team.qz .rank{color:var(--lime)}
+  .flag{font-size:19px; line-height:1; filter:saturate(1.05)}
+  .name{font-weight:600; font-size:15px; display:flex; align-items:center; gap:8px; min-width:0}
+  .name .nm{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .crown{color:var(--lime); font-size:12px}
+  .host{font-family:var(--mono); font-size:8.5px; letter-spacing:.12em; color:var(--amber);
+    border:1px solid rgba(242,181,62,.4); padding:2px 5px; border-radius:4px; white-space:nowrap}
+  .pts{font-family:var(--mono); font-size:11px; color:var(--muted); white-space:nowrap}
+  .qpct{font-family:var(--mono); font-weight:700; font-size:15px; min-width:46px; text-align:right}
+
+  .posbar{grid-column:1 / -1; display:flex; height:7px; border-radius:4px; overflow:hidden;
+    background:rgba(255,255,255,.04); margin:3px 2px 3px}
+  .posbar span{height:100%; width:0; transition:width .9s cubic-bezier(.2,.7,.2,1)}
+  .s1{background:var(--p1)} .s2{background:var(--p2)} .s3{background:var(--p3)} .s4{background:var(--p4)}
+
+  .qzdiv{display:flex; align-items:center; gap:8px; margin:8px 2px 2px; color:var(--faint);
+    font-family:var(--mono); font-size:9px; letter-spacing:.22em; text-transform:uppercase}
+  .qzdiv::before,.qzdiv::after{content:""; height:1px; flex:1; background:repeating-linear-gradient(90deg,var(--line) 0 5px,transparent 5px 9px)}
+
+  details{margin-top:12px; border-top:1px solid var(--line); padding-top:8px}
+  summary{cursor:pointer; list-style:none; font-family:var(--mono); font-size:10.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:8px}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸"; color:var(--lime); transition:transform .2s}
+  details[open] summary::before{transform:rotate(90deg)}
+  .matches{margin-top:10px; display:flex; flex-direction:column; gap:7px}
+  .mt{display:grid; grid-template-columns:1fr 64px 1fr; align-items:center; gap:9px; font-size:12.5px}
+  .mt .h{text-align:right} .mt .a{text-align:left}
+  .mt .tm{color:var(--ink)} .mt .win{color:var(--lime); font-weight:600}
+  .mt .sc{font-family:var(--mono); font-size:11px; color:var(--muted); text-align:center;
+    border:1px solid var(--line); border-radius:5px; padding:2px 0}
+  .mt .pc{font-family:var(--mono); font-size:9.5px; color:var(--faint)}
+  .star{color:var(--amber); font-size:9px}
+
+  /* ---------- TRACKER (resultados reales) ---------- */
+  .tracker{max-width:1280px; margin:20px auto 0; padding:0 26px}
+  .tbox{background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line);
+    border-radius:14px; padding:16px 18px; position:relative; overflow:hidden}
+  .tbox::before{content:""; position:absolute; inset:0 0 auto 0; height:2px;
+    background:linear-gradient(90deg,var(--amber),transparent 70%)}
+  .thead{display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 16px; margin-bottom:14px}
+  .thead h2{font-family:var(--display); font-weight:800; font-size:21px; letter-spacing:.05em; text-transform:uppercase}
+  .thead .stat{font-family:var(--mono); font-size:12px; color:var(--muted)}
+  .thead .stat b{color:var(--lime); font-weight:700}
+  .rchips{display:flex; flex-wrap:wrap; gap:10px}
+  .rchip{display:flex; align-items:center; gap:9px; border:1px solid var(--line); border-radius:10px;
+    padding:8px 12px; background:var(--panel2); font-size:13.5px}
+  .rchip .res{font-family:var(--mono); font-weight:700; font-size:14px}
+  .rchip .pr{font-family:var(--mono); font-size:9.5px; color:var(--faint); letter-spacing:.02em}
+  .rchip .mk{font-family:var(--mono); font-weight:700; font-size:14px}
+  .rchip.ok{border-color:rgba(198,242,78,.45)} .rchip.ok .mk{color:var(--lime)}
+  .rchip.miss{border-color:rgba(242,99,99,.45)} .rchip.miss .mk{color:#f26363}
+  .mt.done .sc{border-color:var(--lime); color:var(--ink); font-weight:700}
+  .mt.done.miss .sc{border-color:#f26363}
+  .real-tag{font-family:var(--mono); font-size:7.5px; letter-spacing:.12em; color:var(--faint); margin-top:1px}
+  .tnote{font-size:12px; color:var(--muted); margin:-4px 0 14px; display:flex; align-items:center; gap:7px}
+  .tnote::before{content:"↻"; color:var(--amber); font-size:14px}
+
+  footer{max-width:1280px; margin:0 auto; padding:0 26px 60px; color:var(--faint); font-size:12px;
+    border-top:1px solid var(--line); padding-top:22px; display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+  footer b{color:var(--muted); font-weight:600}
+  @media (max-width:520px){ main{grid-template-columns:1fr} header{padding-top:38px} }
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">FIFA World Cup 2026 · USA · Canadá · México</div>
+  <h1>Predictor<em>Fase de grupos</em></h1>
+  <p class="sub">Posiciones finales esperadas y probabilidad de clasificación de las 48 selecciones,
+    estimadas por simulación de Monte Carlo sobre un modelo Dixon-Coles + Elo calibrado.</p>
+  <div class="meta" id="meta"></div>
+</header>
+<div class="legend">
+  <span class="sw qz">Zona de clasificación (1º y 2º)</span>
+  <span class="sw"><i class="s1"></i> 1º</span>
+  <span class="sw"><i class="s2"></i> 2º</span>
+  <span class="sw"><i class="s3"></i> 3º</span>
+  <span class="sw"><i class="s4"></i> 4º</span>
+  <span class="sw" style="color:var(--amber)">★ anfitrión / localía</span>
+</div>
+<section class="tracker" id="tracker"></section>
+<main id="board"></main>
+<footer id="foot"></footer>
+
+<script>
+const DATA = __WC_DATA__;
+
+const FLAGS = {
+ "Mexico":"🇲🇽","South Africa":"🇿🇦","South Korea":"🇰🇷","Czechia":"🇨🇿","Canada":"🇨🇦",
+ "Bosnia and Herzegovina":"🇧🇦","Qatar":"🇶🇦","Switzerland":"🇨🇭","Brazil":"🇧🇷","Morocco":"🇲🇦",
+ "Haiti":"🇭🇹","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","United States":"🇺🇸","Paraguay":"🇵🇾","Australia":"🇦🇺","Turkey":"🇹🇷",
+ "Germany":"🇩🇪","Curaçao":"🇨🇼","Ivory Coast":"🇨🇮","Ecuador":"🇪🇨","Netherlands":"🇳🇱","Japan":"🇯🇵",
+ "Sweden":"🇸🇪","Tunisia":"🇹🇳","Belgium":"🇧🇪","Egypt":"🇪🇬","Iran":"🇮🇷","New Zealand":"🇳🇿",
+ "Spain":"🇪🇸","Cape Verde":"🇨🇻","Saudi Arabia":"🇸🇦","Uruguay":"🇺🇾","France":"🇫🇷","Senegal":"🇸🇳",
+ "Iraq":"🇮🇶","Norway":"🇳🇴","Argentina":"🇦🇷","Algeria":"🇩🇿","Austria":"🇦🇹","Jordan":"🇯🇴",
+ "Portugal":"🇵🇹","DR Congo":"🇨🇩","Uzbekistan":"🇺🇿","Colombia":"🇨🇴","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+ "Croatia":"🇭🇷","Ghana":"🇬🇭","Panama":"🇵🇦"
+};
+const flag = t => FLAGS[t] || "⚽";
+const pct = x => Math.round(x*100) + "%";
+const hosts = new Set(DATA.meta.hosts || []);
+
+// meta chips
+document.getElementById("meta").innerHTML = [
+  `<span class="chip"><b>${DATA.meta.n_groups}</b> grupos · <b>${DATA.meta.n_teams}</b> selecciones</span>`,
+  `<span class="chip"><b>${DATA.meta.n_sims.toLocaleString('es')}</b> simulaciones</span>`,
+  `<span class="chip">Modelo · ${DATA.meta.model}</span>`,
+  `<span class="chip">RPS <b>${DATA.meta.rps}</b></span>`,
+  `<span class="chip amber">datos al <b>${DATA.meta.as_of}</b></span>`,
+].join("");
+
+// resultados reales (tracker en vivo)
+const tr = document.getElementById("tracker");
+if (DATA.played && DATA.played.length){
+  const m = DATA.meta;
+  const chips = DATA.played.map(p => {
+    const ps=[p.p_home,p.p_draw,p.p_away], names=[p.home,"Empate",p.away];
+    const k=ps.indexOf(Math.max(...ps));
+    return `<div class="rchip ${p.correct?'ok':'miss'}">
+      <span class="mk">${p.correct?'✓':'✗'}</span>
+      <span>${flag(p.home)} <span class="res">${p.actual}</span> ${flag(p.away)}</span>
+      <span class="pr">predijimos ${names[k]} ${Math.round(Math.max(...ps)*100)}%</span>
+    </div>`;
+  }).join("");
+  tr.innerHTML = `<div class="tbox">
+    <div class="thead">
+      <h2>Resultados reales</h2>
+      <span class="stat"><b>${m.n_played}</b> jugados</span>
+      <span class="stat">aciertos del ganador <b>${m.picks_correct}/${m.n_played}</b></span>
+      <span class="stat">RPS en vivo <b>${m.rps_live}</b> <span style="color:var(--faint)">(backtest ${m.rps})</span></span>
+    </div>
+    <div class="tnote">Las predicciones de los partidos que faltan ya incorporan estos resultados (Elo actualizado).</div>
+    <div class="rchips">${chips}</div>
+  </div>`;
+}
+
+const board = document.getElementById("board");
+
+DATA.groups.forEach((g, gi) => {
+  const fav = g.teams[0];
+  const card = document.createElement("section");
+  card.className = "card";
+  card.style.transitionDelay = (gi*45) + "ms";
+
+  const teamsHtml = g.teams.map((t, i) => {
+    const qz = i < 2 ? " qz" : "";
+    const isHost = hosts.has(t.team);
+    const crown = i === 0 ? `<span class="crown">★</span>` : "";
+    const hostTag = isHost ? `<span class="host">ANFITRIÓN</span>` : "";
+    const qcolor = t.p_qualify >= .6 ? "var(--lime)" : t.p_qualify >= .35 ? "var(--ink)" : "var(--muted)";
+    const seg = (cls, v) => `<span class="${cls}" data-w="${(v*100).toFixed(1)}"></span>`;
+    const divider = i === 1 ? `<div class="qzdiv">clasificación</div>` : "";
+    return `
+      <div class="team${qz}">
+        <span class="rank">${i+1}</span>
+        <span class="flag">${flag(t.team)}</span>
+        <span class="name">${crown}<span class="nm">${t.team}</span>${hostTag}</span>
+        <span class="pts">${t.exp_points.toFixed(1)} pts</span>
+        <span class="qpct" style="color:${qcolor}">${pct(t.p_qualify)}</span>
+        <div class="posbar">
+          ${seg("s1",t.p_first)}${seg("s2",t.p_second)}${seg("s3",t.p_third)}${seg("s4",t.p_fourth)}
+        </div>
+      </div>${divider}`;
+  }).join("");
+
+  const matchesHtml = g.matches.map(m => {
+    const ph=m.p_home, pd=m.p_draw, pa=m.p_away;
+    const top = Math.max(ph,pd,pa);
+    const star = m.localia ? `<span class="star" title="localía: ${m.localia}">★</span>` : "";
+    if (m.played){
+      return `
+      <div class="mt done${m.correct?'':' miss'}">
+        <span class="h"><span class="tm">${flag(m.home)} ${m.home}</span> ${m.localia===m.home?star:""}
+          <div class="pc">predijimos ${pct(ph)}</div></span>
+        <span class="sc">${m.actual}<div class="real-tag">REAL ${m.correct?'✓':'✗'}</div></span>
+        <span class="a">${m.localia===m.away?star:""} <span class="tm">${m.away} ${flag(m.away)}</span>
+          <div class="pc">${pct(pa)}</div></span>
+      </div>`;
+    }
+    const hC = ph===top ? "win" : "tm", aC = pa===top ? "win" : "tm";
+    return `
+      <div class="mt">
+        <span class="h"><span class="${hC}">${flag(m.home)} ${m.home}</span> ${m.localia===m.home?star:""}
+          <div class="pc">${pct(ph)}</div></span>
+        <span class="sc">${m.modal}<div class="pc" style="margin-top:1px">empate ${pct(pd)}</div></span>
+        <span class="a">${m.localia===m.away?star:""} <span class="${aC}">${m.away} ${flag(m.away)}</span>
+          <div class="pc">${pct(pa)}</div></span>
+      </div>`;
+  }).join("");
+
+  card.innerHTML = `
+    <div class="ghost">${g.group}</div>
+    <div class="ch">
+      <span class="gletter">${g.group}</span><span class="glabel">Grupo</span>
+      <span class="fav">favorito<br><b>${flag(fav.team)} ${fav.team}</b> · ${pct(fav.p_first)}</span>
+    </div>
+    ${teamsHtml}
+    <details>
+      <summary>Ver los 6 partidos</summary>
+      <div class="matches">${matchesHtml}</div>
+    </details>`;
+  board.appendChild(card);
+});
+
+// footer
+document.getElementById("foot").innerHTML = `
+  <span>Clasifican los <b>2 primeros de cada grupo</b> + los <b>8 mejores terceros</b> (32 selecciones).</span>
+  <span>Generado localmente · sin conexión · <b>AlgoritmoPredict</b></span>`;
+
+// animaciones: revelar tarjetas + animar barras
+requestAnimationFrame(() => {
+  document.querySelectorAll(".card").forEach(c => c.classList.add("show"));
+  setTimeout(() => {
+    document.querySelectorAll(".posbar span").forEach(s => { s.style.width = s.dataset.w + "%"; });
+  }, 220);
+});
+</script>
+</body>
+</html>

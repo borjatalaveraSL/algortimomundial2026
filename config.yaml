@@ -1,0 +1,70 @@
+# ============================================================
+# Configuración del predictor de partidos del Mundial 2026
+# ============================================================
+
+data:
+  # Fuente histórica: dataset martj42 servido por HTTP (sin API key).
+  base_url: "https://raw.githubusercontent.com/martj42/international_results/master"
+  results_file: "results.csv"
+  former_names_file: "former_names.csv"
+  shootouts_file: "shootouts.csv"
+  # Capas locales (relativas a la raíz del proyecto).
+  raw_dir: "data/raw"
+  clean_dir: "data/clean"
+  features_dir: "data/features"
+
+ingest:
+  # Fecha "hoy" para separar partidos jugados de fixtures pendientes.
+  # null => usa la fecha actual del sistema.
+  as_of_date: "2026-06-13"
+  # Re-descargar aunque exista el raw cacheado.
+  force_download: false
+  # Torneo de los fixtures que queremos predecir.
+  target_tournament: "FIFA World Cup"
+
+# Parámetros del modelo (se consumen en componentes posteriores;
+# acá quedan centralizados y versionados).
+model:
+  training_window_years: 15    # ventana para el ajuste Dixon-Coles (últimos 15 años)
+  time_decay_half_life_years: 6.0  # peso = 0.5 ** (años_atrás / half_life); a 15 años ≈ 18%
+  min_team_matches: 3          # < esto => predictor "degradado" (cae a Elo/uniforme)
+  # La ventaja de localía la estima penaltyblog nativamente desde los datos
+  # y la anula en sede neutral (vía el flag neutral_venue), no usamos multiplicador fijo.
+  blend_weights:               # tuneado por RPS (backtest walk-forward 3 años, half-life=6)
+    dixon_coles: 0.70
+    elo: 0.30
+  sharpening: 1.15             # tuneado: corrige la subconfianza con favoritos (gamma>1)
+
+elo:
+  start_rating: 1500.0
+  k_factor: 40.0
+  home_advantage_points: 100.0  # se anula en sede neutral
+  # Multiplicador de importancia por tipo de torneo (peso en la actualización).
+  tournament_weight:
+    "FIFA World Cup": 1.0
+    "Copa América": 0.85
+    "UEFA Euro": 0.85
+    "African Cup of Nations": 0.85
+    "FIFA World Cup qualification": 0.8
+    "UEFA Nations League": 0.7
+    "Friendly": 0.4
+    default: 0.6
+
+venue:
+  # Un país anfitrión jugando en su propio país => localía (resto del Mundial = neutral).
+  host_nations: ["United States", "Canada", "Mexico"]
+  # Factor hinchada (DIFERIDO, 2da iteración): NO por cercanía geográfica
+  # (Panamá cerca de México no aporta), sino solo para selecciones GRANDES
+  # (Argentina, Brasil, Francia, Portugal, Uruguay…) que arrastran hinchada.
+
+backtest:
+  test_years_back: 3      # evaluar prediciendo los partidos de los últimos N años
+  refit_every_days: 90    # re-entrenar el modelo cada N días (walk-forward, sin look-ahead)
+  calibration_bins: 10    # bins para el diagrama de calibración
+
+simulation:
+  groups_file: "assets/wc2026_groups.csv"   # 48 selecciones en 12 grupos (A-L)
+  actual_results_file: "assets/actual_results.csv"  # resultados reales ya jugados (se fijan)
+  n_sims: 20000           # iteraciones Monte Carlo de la fase de grupos
+  seed: 2026              # reproducibilidad
+  web_dir: "web"          # salida del front (index.html autocontenido + standings.json)

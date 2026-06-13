@@ -1,0 +1,12 @@
+# Predictor de partidos del Mundial — dependencias
+# Ingesta
+pandas>=2.0
+numpy>=1.24
+requests>=2.31
+pyyaml>=6.0
+Unidecode>=1.3
+pyarrow>=14.0
+
+# Modelo (componentes 2-4, se instalan al llegar a esa etapa)
+scipy>=1.10
+penaltyblog>=1.0
