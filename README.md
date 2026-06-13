@@ -177,6 +177,22 @@ La key se lee de una **variable de entorno** (nunca se versiona).
 > sección anterior) y las **lesiones** se cargan a mano. La API queda lista para cuando tengas plan pago
 > (o para análisis de datos 2022-2024). Las lesiones de la API tampoco traen posición → impacto *default*.
 
+## ⏰ Automatización (macOS · launchd)
+
+Un LaunchAgent corre [`scripts/update_demo.sh`](scripts/update_demo.sh) cada día (sincroniza →
+`ingest` → `simulate` → commit + push **solo si hay cambios**, y no publica si algo falla).
+
+```bash
+cp scripts/com.borjatalavera.wcpredictor.plist ~/Library/LaunchAgents/
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.borjatalavera.wcpredictor.plist
+```
+
+- Corre **todos los días a las 9:00** (editá `Hour`/`Minute` en el plist y recargá).
+- Log: `~/Library/Logs/wcpredictor.log` · Probar ahora: `launchctl start com.borjatalavera.wcpredictor`
+- Desinstalar: `launchctl bootout gui/$(id -u)/com.borjatalavera.wcpredictor`
+- El push automático necesita credenciales de git cacheadas (credential helper de macOS o SSH) y que
+  la Mac esté encendida/con sesión iniciada al horario programado.
+
 ## 🚀 Instalación y uso
 
 ```bash
