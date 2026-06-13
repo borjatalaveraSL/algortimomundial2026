@@ -189,16 +189,16 @@
   <div class="meta" id="meta"></div>
 </header>
 <nav class="tabs" id="tabs">
-  <button data-view="titulo" class="active">🏆 Camino al título</button>
-  <button data-view="grupos">Fase de grupos</button>
+  <button data-view="grupos" class="active">Fase de grupos</button>
+  <button data-view="titulo">🏆 Camino al título</button>
   <button data-view="resultados" id="tab-res">Resultados reales</button>
 </nav>
 
-<section class="view" id="view-titulo">
+<section class="view" id="view-titulo" hidden>
   <section class="trace" id="titlerace"></section>
 </section>
 
-<section class="view" id="view-grupos" hidden>
+<section class="view" id="view-grupos">
   <div class="legend">
     <span class="sw qz">Zona de clasificación (1º y 2º)</span>
     <span class="sw"><i class="s1"></i> 1º</span>
@@ -379,7 +379,7 @@ function showView(v) {
 }
 document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => showView(b.dataset.view)));
 const h = location.hash.slice(1);
-showView(VIEWS.includes(h) ? h : "titulo");
+showView(VIEWS.includes(h) ? h : "grupos");
 
 // animaciones: revelar tarjetas + animar barras
 requestAnimationFrame(() => {
