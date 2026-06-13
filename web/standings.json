@@ -32,7 +32,8 @@
           "p_qualify": 0.931,
           "p_champion": 0.01,
           "exp_points": 6.05,
-          "exp_gd": 2.63
+          "exp_gd": 2.63,
+          "out": 0
         },
         {
           "team": "South Korea",
@@ -47,7 +48,8 @@
           "p_qualify": 0.945,
           "p_champion": 0.006,
           "exp_points": 5.72,
-          "exp_gd": 0.9
+          "exp_gd": 0.9,
+          "out": 0
         },
         {
           "team": "Czechia",
@@ -62,7 +64,8 @@
           "p_qualify": 0.488,
           "p_champion": 0.002,
           "exp_points": 2.54,
-          "exp_gd": -1.29
+          "exp_gd": -1.29,
+          "out": 0
         },
         {
           "team": "South Africa",
@@ -77,7 +80,8 @@
           "p_qualify": 0.362,
           "p_champion": 0.0,
           "exp_points": 2.35,
-          "exp_gd": -2.24
+          "exp_gd": -2.24,
+          "out": 0
         }
       ],
       "matches": [
@@ -177,7 +181,8 @@
           "p_qualify": 0.844,
           "p_champion": 0.009,
           "exp_points": 4.63,
-          "exp_gd": 1.28
+          "exp_gd": 1.28,
+          "out": 0
         },
         {
           "team": "Canada",
@@ -192,7 +197,8 @@
           "p_qualify": 0.841,
           "p_champion": 0.003,
           "exp_points": 4.46,
-          "exp_gd": 1.04
+          "exp_gd": 1.04,
+          "out": 0
         },
         {
           "team": "Bosnia and Herzegovina",
@@ -207,7 +213,8 @@
           "p_qualify": 0.614,
           "p_champion": 0.0,
           "exp_points": 3.36,
-          "exp_gd": -0.53
+          "exp_gd": -0.53,
+          "out": 0
         },
         {
           "team": "Qatar",
@@ -222,7 +229,8 @@
           "p_qualify": 0.38,
           "p_champion": 0.0,
           "exp_points": 2.53,
-          "exp_gd": -1.79
+          "exp_gd": -1.79,
+          "out": 0
         }
       ],
       "matches": [
@@ -322,7 +330,8 @@
           "p_qualify": 0.986,
           "p_champion": 0.121,
           "exp_points": 6.92,
-          "exp_gd": 5.15
+          "exp_gd": 5.15,
+          "out": 0
         },
         {
           "team": "Morocco",
@@ -337,7 +346,8 @@
           "p_qualify": 0.898,
           "p_champion": 0.02,
           "exp_points": 5.11,
-          "exp_gd": 1.6
+          "exp_gd": 1.6,
+          "out": 0
         },
         {
           "team": "Scotland",
@@ -352,7 +362,8 @@
           "p_qualify": 0.657,
           "p_champion": 0.003,
           "exp_points": 3.43,
-          "exp_gd": -0.92
+          "exp_gd": -0.92,
+          "out": 0
         },
         {
           "team": "Haiti",
@@ -367,7 +378,8 @@
           "p_qualify": 0.127,
           "p_champion": 0.0,
           "exp_points": 1.22,
-          "exp_gd": -5.82
+          "exp_gd": -5.82,
+          "out": 0
         }
       ],
       "matches": [
@@ -467,7 +479,8 @@
           "p_qualify": 0.954,
           "p_champion": 0.005,
           "exp_points": 6.17,
-          "exp_gd": 1.63
+          "exp_gd": 1.63,
+          "out": 0
         },
         {
           "team": "Turkey",
@@ -482,7 +495,8 @@
           "p_qualify": 0.707,
           "p_champion": 0.004,
           "exp_points": 4.14,
-          "exp_gd": 0.07
+          "exp_gd": 0.07,
+          "out": 0
         },
         {
           "team": "Australia",
@@ -497,7 +511,8 @@
           "p_qualify": 0.656,
           "p_champion": 0.004,
           "exp_points": 3.84,
-          "exp_gd": -0.29
+          "exp_gd": -0.29,
+          "out": 0
         },
         {
           "team": "Paraguay",
@@ -512,7 +527,8 @@
           "p_qualify": 0.416,
           "p_champion": 0.001,
           "exp_points": 2.35,
-          "exp_gd": -1.41
+          "exp_gd": -1.41,
+          "out": 0
         }
       ],
       "matches": [
@@ -612,7 +628,8 @@
           "p_qualify": 0.978,
           "p_champion": 0.051,
           "exp_points": 6.4,
-          "exp_gd": 4.85
+          "exp_gd": 4.85,
+          "out": 0
         },
         {
           "team": "Ecuador",
@@ -627,7 +644,8 @@
           "p_qualify": 0.937,
           "p_champion": 0.02,
           "exp_points": 5.51,
-          "exp_gd": 2.31
+          "exp_gd": 2.31,
+          "out": 0
         },
         {
           "team": "Ivory Coast",
@@ -642,7 +660,8 @@
           "p_qualify": 0.796,
           "p_champion": 0.003,
           "exp_points": 4.1,
-          "exp_gd": 0.31
+          "exp_gd": 0.31,
+          "out": 0
         },
         {
           "team": "Curaçao",
@@ -657,7 +676,8 @@
           "p_qualify": 0.054,
           "p_champion": 0.0,
           "exp_points": 0.77,
-          "exp_gd": -7.47
+          "exp_gd": -7.47,
+          "out": 0
         }
       ],
       "matches": [
@@ -757,7 +777,8 @@
           "p_qualify": 0.909,
           "p_champion": 0.027,
           "exp_points": 5.76,
-          "exp_gd": 2.32
+          "exp_gd": 2.32,
+          "out": 0
         },
         {
           "team": "Japan",
@@ -772,7 +793,8 @@
           "p_qualify": 0.784,
           "p_champion": 0.011,
           "exp_points": 4.56,
-          "exp_gd": 0.52
+          "exp_gd": 0.52,
+          "out": 0
         },
         {
           "team": "Sweden",
@@ -787,7 +809,8 @@
           "p_qualify": 0.579,
           "p_champion": 0.003,
           "exp_points": 3.34,
-          "exp_gd": -1.02
+          "exp_gd": -1.02,
+          "out": 0
         },
         {
           "team": "Tunisia",
@@ -802,7 +825,8 @@
           "p_qualify": 0.438,
           "p_champion": 0.001,
           "exp_points": 2.7,
-          "exp_gd": -1.82
+          "exp_gd": -1.82,
+          "out": 0
         }
       ],
       "matches": [
@@ -902,7 +926,8 @@
           "p_qualify": 0.957,
           "p_champion": 0.055,
           "exp_points": 6.34,
-          "exp_gd": 3.48
+          "exp_gd": 3.48,
+          "out": 0
         },
         {
           "team": "Iran",
@@ -917,7 +942,8 @@
           "p_qualify": 0.81,
           "p_champion": 0.006,
           "exp_points": 4.57,
-          "exp_gd": 0.61
+          "exp_gd": 0.61,
+          "out": 0
         },
         {
           "team": "Egypt",
@@ -932,7 +958,8 @@
           "p_qualify": 0.681,
           "p_champion": 0.003,
           "exp_points": 3.77,
-          "exp_gd": -0.4
+          "exp_gd": -0.4,
+          "out": 0
         },
         {
           "team": "New Zealand",
@@ -947,7 +974,8 @@
           "p_qualify": 0.219,
           "p_champion": 0.0,
           "exp_points": 1.73,
-          "exp_gd": -3.69
+          "exp_gd": -3.69,
+          "out": 0
         }
       ],
       "matches": [
@@ -1047,7 +1075,8 @@
           "p_qualify": 0.991,
           "p_champion": 0.131,
           "exp_points": 7.17,
-          "exp_gd": 4.89
+          "exp_gd": 4.89,
+          "out": 0
         },
         {
           "team": "Uruguay",
@@ -1062,7 +1091,8 @@
           "p_qualify": 0.927,
           "p_champion": 0.025,
           "exp_points": 5.45,
-          "exp_gd": 1.92
+          "exp_gd": 1.92,
+          "out": 0
         },
         {
           "team": "Saudi Arabia",
@@ -1077,7 +1107,8 @@
           "p_qualify": 0.316,
           "p_champion": 0.0,
           "exp_points": 2.11,
-          "exp_gd": -3.26
+          "exp_gd": -3.26,
+          "out": 0
         },
         {
           "team": "Cape Verde",
@@ -1092,7 +1123,8 @@
           "p_qualify": 0.281,
           "p_champion": 0.0,
           "exp_points": 1.93,
-          "exp_gd": -3.54
+          "exp_gd": -3.54,
+          "out": 0
         }
       ],
       "matches": [
@@ -1192,7 +1224,8 @@
           "p_qualify": 0.962,
           "p_champion": 0.081,
           "exp_points": 6.49,
-          "exp_gd": 3.49
+          "exp_gd": 3.49,
+          "out": 0
         },
         {
           "team": "Norway",
@@ -1207,7 +1240,8 @@
           "p_qualify": 0.76,
           "p_champion": 0.008,
           "exp_points": 4.19,
-          "exp_gd": 0.12
+          "exp_gd": 0.12,
+          "out": 0
         },
         {
           "team": "Senegal",
@@ -1222,7 +1256,8 @@
           "p_qualify": 0.75,
           "p_champion": 0.008,
           "exp_points": 4.17,
-          "exp_gd": 0.09
+          "exp_gd": 0.09,
+          "out": 0
         },
         {
           "team": "Iraq",
@@ -1237,7 +1272,8 @@
           "p_qualify": 0.208,
           "p_champion": 0.0,
           "exp_points": 1.64,
-          "exp_gd": -3.7
+          "exp_gd": -3.7,
+          "out": 0
         }
       ],
       "matches": [
@@ -1337,7 +1373,8 @@
           "p_qualify": 0.985,
           "p_champion": 0.153,
           "exp_points": 7.05,
-          "exp_gd": 4.51
+          "exp_gd": 4.51,
+          "out": 0
         },
         {
           "team": "Austria",
@@ -1352,7 +1389,8 @@
           "p_qualify": 0.757,
           "p_champion": 0.005,
           "exp_points": 4.11,
-          "exp_gd": 0.12
+          "exp_gd": 0.12,
+          "out": 0
         },
         {
           "team": "Algeria",
@@ -1367,7 +1405,8 @@
           "p_qualify": 0.728,
           "p_champion": 0.004,
           "exp_points": 3.94,
-          "exp_gd": -0.17
+          "exp_gd": -0.17,
+          "out": 0
         },
         {
           "team": "Jordan",
@@ -1382,7 +1421,8 @@
           "p_qualify": 0.19,
           "p_champion": 0.0,
           "exp_points": 1.53,
-          "exp_gd": -4.46
+          "exp_gd": -4.46,
+          "out": 0
         }
       ],
       "matches": [
@@ -1482,7 +1522,8 @@
           "p_qualify": 0.947,
           "p_champion": 0.071,
           "exp_points": 6.01,
-          "exp_gd": 2.79
+          "exp_gd": 2.79,
+          "out": 0
         },
         {
           "team": "Colombia",
@@ -1497,7 +1538,8 @@
           "p_qualify": 0.936,
           "p_champion": 0.059,
           "exp_points": 5.87,
-          "exp_gd": 2.46
+          "exp_gd": 2.46,
+          "out": 0
         },
         {
           "team": "Uzbekistan",
@@ -1512,7 +1554,8 @@
           "p_qualify": 0.387,
           "p_champion": 0.001,
           "exp_points": 2.43,
-          "exp_gd": -2.44
+          "exp_gd": -2.44,
+          "out": 0
         },
         {
           "team": "DR Congo",
@@ -1527,7 +1570,8 @@
           "p_qualify": 0.323,
           "p_champion": 0.0,
           "exp_points": 2.15,
-          "exp_gd": -2.8
+          "exp_gd": -2.8,
+          "out": 0
         }
       ],
       "matches": [
@@ -1627,7 +1671,8 @@
           "p_qualify": 0.978,
           "p_champion": 0.065,
           "exp_points": 6.72,
-          "exp_gd": 3.94
+          "exp_gd": 3.94,
+          "out": 0
         },
         {
           "team": "Croatia",
@@ -1642,7 +1687,8 @@
           "p_qualify": 0.897,
           "p_champion": 0.019,
           "exp_points": 5.29,
-          "exp_gd": 1.78
+          "exp_gd": 1.78,
+          "out": 0
         },
         {
           "team": "Panama",
@@ -1657,7 +1703,8 @@
           "p_qualify": 0.371,
           "p_champion": 0.0,
           "exp_points": 2.35,
-          "exp_gd": -3.01
+          "exp_gd": -3.01,
+          "out": 0
         },
         {
           "team": "Ghana",
@@ -1672,7 +1719,8 @@
           "p_qualify": 0.358,
           "p_champion": 0.0,
           "exp_points": 2.24,
-          "exp_gd": -2.71
+          "exp_gd": -2.71,
+          "out": 0
         }
       ],
       "matches": [

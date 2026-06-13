@@ -102,6 +102,7 @@
   .crown{color:var(--lime); font-size:12px}
   .host{font-family:var(--mono); font-size:8.5px; letter-spacing:.12em; color:var(--amber);
     border:1px solid rgba(242,181,62,.4); padding:2px 5px; border-radius:4px; white-space:nowrap}
+  .out{font-family:var(--mono); font-size:9.5px; color:#ef7d7d; white-space:nowrap}
   .pts{font-family:var(--mono); font-size:11px; color:var(--muted); white-space:nowrap}
   .qpct{font-family:var(--mono); font-weight:700; font-size:15px; min-width:46px; text-align:right}
 
@@ -303,6 +304,7 @@ DATA.groups.forEach((g, gi) => {
     const isHost = hosts.has(t.team);
     const crown = i === 0 ? `<span class="crown">★</span>` : "";
     const hostTag = isHost ? `<span class="host">ANFITRIÓN</span>` : "";
+    const outTag = t.out ? `<span class="out" title="${t.out} baja(s) confirmada(s)">🩹${t.out}</span>` : "";
     const qcolor = t.p_qualify >= .6 ? "var(--lime)" : t.p_qualify >= .35 ? "var(--ink)" : "var(--muted)";
     const seg = (cls, v) => `<span class="${cls}" data-w="${(v*100).toFixed(1)}"></span>`;
     const divider = i === 1 ? `<div class="qzdiv">clasificación</div>` : "";
@@ -310,7 +312,7 @@ DATA.groups.forEach((g, gi) => {
       <div class="team${qz}">
         <span class="rank">${i+1}</span>
         <span class="flag">${flag(t.team)}</span>
-        <span class="name">${crown}<span class="nm">${t.team}</span>${hostTag}</span>
+        <span class="name">${crown}<span class="nm">${t.team}</span>${hostTag}${outTag}</span>
         <span class="pts">${t.exp_points.toFixed(1)} pts</span>
         <span class="qpct" style="color:${qcolor}">${pct(t.p_qualify)}</span>
         <div class="posbar">

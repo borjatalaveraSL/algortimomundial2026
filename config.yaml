@@ -62,6 +62,20 @@ backtest:
   refit_every_days: 90    # re-entrenar el modelo cada N días (walk-forward, sin look-ahead)
   calibration_bins: 10    # bins para el diagrama de calibración
 
+availability:
+  # Ajuste por lesiones/bajas CONFIRMADAS (inference-time; NO se entrena).
+  unavailable_file: "assets/unavailable_players.csv"  # carga manual de bajas
+  apply: true
+  cap: 0.18              # tope del impacto por lado
+  attack_floor: 0.82     # piso del multiplicador del goleo propio
+  # impacto por posición [Δataque propio, Δdefensa→sube goleo rival] (Oloráculo; heurístico)
+  role_impact:
+    attacker: [0.035, 0.003]
+    midfielder: [0.015, 0.010]
+    defender: [0.004, 0.025]
+    goalkeeper: [0.0, 0.050]
+    default: [0.020, 0.0]
+
 simulation:
   groups_file: "assets/wc2026_groups.csv"   # 48 selecciones en 12 grupos (A-L)
   actual_results_file: "assets/actual_results.csv"  # resultados reales ya jugados (se fijan)

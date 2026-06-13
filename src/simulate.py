@@ -29,10 +29,12 @@ try:
     from src.model import build_blend, home_field
     from src.elo import load_config
     from src.team_names import canonical_name
+    from src.availability import load_unavailable
 except ImportError:  # pragma: no cover
     from model import build_blend, home_field
     from elo import load_config
     from team_names import canonical_name
+    from availability import load_unavailable
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -383,7 +385,8 @@ def run(blend, blend_pre, groups: dict, lookup: dict, hosts: list[str], n: int, 
 
 
 # --------------------------------------------------------------------------- #
-def build_payload(agg, matches_out, gnames, groups, elo, cfg, track, ko):
+def build_payload(agg, matches_out, gnames, groups, elo, cfg, track, ko, unavailable=None):
+    unavailable = unavailable or {}
     out_groups = []
     for g in gnames:
         teams = sorted(groups[g], key=lambda t: agg[t]["rank"])  # posición final esperada
@@ -397,6 +400,7 @@ def build_payload(agg, matches_out, gnames, groups, elo, cfg, track, ko):
                 "p_top2": round(r["q_top2"], 3), "p_third_adv": round(r["q_third"], 3),
                 "p_qualify": round(r["qualify"], 3), "p_champion": round(ko[t]["champ"], 3),
                 "exp_points": round(r["pts"], 2), "exp_gd": round(r["gd"], 2),
+                "out": len(unavailable.get(t, [])),
             })
         out_groups.append({"group": g, "teams": rows, "matches": matches_out[g]})
 
@@ -472,9 +476,15 @@ def main() -> None:
     # Realimentar lo jugado al entrenamiento (Elo + Dixon-Coles)
     played_aug = pd.concat([played, actuals_to_training(adf)], ignore_index=True) if actuals else played
 
-    print("Construyendo modelo POST (actualizado con lo jugado)…")
-    blend_post = build_blend(played_aug, cfg)
-    # Modelo PRE (sin lo jugado) para evaluar esos partidos sin leakage
+    # Bajas/lesiones confirmadas (ajustan los partidos por jugar; no el histórico)
+    av = cfg.get("availability", {})
+    unavailable = load_unavailable(PROJECT_ROOT / av["unavailable_file"]) if av.get("apply") else {}
+    if unavailable:
+        print(f"Bajas cargadas: {sum(len(v) for v in unavailable.values())} en {len(unavailable)} selecciones")
+
+    print("Construyendo modelo POST (actualizado con lo jugado + bajas)…")
+    blend_post = build_blend(played_aug, cfg, unavailable=unavailable)
+    # Modelo PRE (sin lo jugado ni bajas) para evaluar esos partidos sin leakage
     blend_pre = build_blend(played, cfg, verbose=False) if actuals else blend_post
 
     if actuals:  # mostrar el efecto en el Elo
@@ -490,7 +500,7 @@ def main() -> None:
     print(f"\nSimulando {n:,} torneos completos (grupos + eliminatorias hasta la final)…")
     agg, matches_out, gnames, track, ko = run(blend_post, blend_pre, groups, lookup, hosts, n, seed, actuals, pen_skill)
 
-    payload = build_payload(agg, matches_out, gnames, groups, elo, cfg, track, ko)
+    payload = build_payload(agg, matches_out, gnames, groups, elo, cfg, track, ko, unavailable)
     web_dir = PROJECT_ROOT / cfg["simulation"]["web_dir"]
     render_html(payload, web_dir)
 

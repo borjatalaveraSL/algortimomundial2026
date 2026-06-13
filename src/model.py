@@ -24,8 +24,10 @@ from penaltyblog.models import DixonColesGoalModel
 
 try:
     from src.elo import compute_elo, elo_1x2, load_config
+    from src.availability import adjusted_lambdas, outcome_from_lambdas, load_unavailable
 except ImportError:  # pragma: no cover
     from elo import compute_elo, elo_1x2, load_config
+    from availability import adjusted_lambdas, outcome_from_lambdas, load_unavailable
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTCOMES = ("H", "D", "A")  # local / empate / visita
@@ -103,18 +105,27 @@ class EloModel:
 class DixonColesModel:
     name = "dixon_coles"
 
-    def __init__(self, fitted, team_counts: dict, min_matches: int):
+    def __init__(self, fitted, team_counts: dict, min_matches: int, avail: dict | None = None):
         self.m = fitted
         self.team_counts = team_counts
         self.min_matches = min_matches
+        self.avail = avail   # config de lesiones (None = desactivado)
 
     def _known(self, t: str) -> bool:
         return self.team_counts.get(t, 0) >= self.min_matches
 
-    def predict(self, home: str, away: str, neutral: bool) -> Prediction:
+    def predict(self, home: str, away: str, neutral: bool,
+                out_home=(), out_away=()) -> Prediction:
         if not (self._known(home) and self._known(away)):
             return Prediction(home, away, neutral, 1 / 3, 1 / 3, 1 / 3, self.name, degraded=True)
         grid = self.m.predict(home, away, neutral_venue=bool(neutral))
+        if self.avail and (out_home or out_away):
+            # Ajuste por bajas: reescala las tasas de gol y reconstruye 1X2 + marcador
+            lh, la = float(grid.home_goal_expectation), float(grid.away_goal_expectation)
+            lh, la = adjusted_lambdas(lh, la, out_home, out_away, self.avail)
+            ph, pdr, pa, score, over = outcome_from_lambdas(lh, la)
+            return Prediction(home, away, neutral, ph, pdr, pa, self.name,
+                              degraded=False, exact_score=score, p_over25=over)
         g = _as_grid(grid)
         i, j = np.unravel_index(np.argmax(g), g.shape)
         idx = np.indices(g.shape)
@@ -130,14 +141,18 @@ class DixonColesModel:
 class BlendModel:
     name = "blend"
 
-    def __init__(self, dc: DixonColesModel, elo: EloModel, w_dc: float, w_elo: float, sharpening: float = 1.0):
+    def __init__(self, dc: DixonColesModel, elo: EloModel, w_dc: float, w_elo: float,
+                 sharpening: float = 1.0, unavailable: dict | None = None):
         self.dc, self.elo = dc, elo
         self.w_dc, self.w_elo = w_dc, w_elo
         self.sharpening = sharpening
+        self.unavailable = unavailable or {}   # team -> [posiciones ausentes]
         self.uniform = UniformModel()
 
     def predict(self, home: str, away: str, neutral: bool) -> Prediction:
-        dc = self.dc.predict(home, away, neutral)
+        oh = self.unavailable.get(home, [])
+        oa = self.unavailable.get(away, [])
+        dc = self.dc.predict(home, away, neutral, oh, oa)
         elo = self.elo.predict(home, away, neutral)
         g = self.sharpening
 
@@ -186,14 +201,16 @@ def fit_dixon_coles(played: pd.DataFrame, cfg: dict) -> tuple[DixonColesModel, i
     return DixonColesModel(fitted, counts, mcfg["min_team_matches"]), len(win)
 
 
-def build_blend(played: pd.DataFrame, cfg: dict, verbose: bool = True) -> BlendModel:
+def build_blend(played: pd.DataFrame, cfg: dict, verbose: bool = True, unavailable: dict | None = None) -> BlendModel:
     ratings, _ = compute_elo(played, cfg)
     dc, n_win = fit_dixon_coles(played, cfg)
+    av = cfg.get("availability")
+    dc.avail = av if (av and av.get("apply")) else None
     bw = cfg["model"]["blend_weights"]
     sharp = cfg["model"].get("sharpening", 1.0)
     if verbose:
         print(f"  · Elo sobre {len(played):,} partidos | Dixon-Coles sobre {n_win:,} (ventana {cfg['model']['training_window_years']}a)")
-    return BlendModel(dc, EloModel(ratings, cfg), bw["dixon_coles"], bw["elo"], sharp)
+    return BlendModel(dc, EloModel(ratings, cfg), bw["dixon_coles"], bw["elo"], sharp, unavailable)
 
 
 def home_field(home_team: str, away_team: str, country: str, hosts: list[str]) -> str | None:
@@ -248,8 +265,10 @@ def main() -> None:
     fixtures = pd.read_parquet(clean_dir / "fixtures_pending.parquet")
     fixtures["date"] = pd.to_datetime(fixtures["date"])
 
+    av = cfg.get("availability", {})
+    unavailable = load_unavailable(PROJECT_ROOT / av["unavailable_file"]) if av.get("apply") else {}
     print("Construyendo modelos:")
-    model = build_blend(played, cfg)
+    model = build_blend(played, cfg, unavailable=unavailable)
     hosts = cfg["venue"]["host_nations"]
 
     preds = predict_fixtures(fixtures, model, hosts)

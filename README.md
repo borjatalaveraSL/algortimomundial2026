@@ -142,6 +142,20 @@ A medida que se juega el Mundial, se cargan los resultados en
 
 ---
 
+## 🩹 Lesiones / disponibilidad
+
+Las **bajas confirmadas** ajustan la predicción de los partidos por jugar. Se cargan en
+[`assets/unavailable_players.csv`](assets/unavailable_players.csv) (`team,player,position,status,source`)
+y al re-correr `simulate.py` el ajuste se aplica solo (se refleja en grupos, eliminatorias y campeón;
+un indicador 🩹 marca a las selecciones con bajas en el front).
+
+Según el **rol** del ausente se reescalan las tasas de gol esperadas: tus atacantes fuera → marcás
+menos; el arquero/defensa rival fuera → marcás más (con un tope por lado). Magnitudes en `config.yaml`.
+
+> ⚠️ **No es un feature entrenado** — no hay histórico de lesiones etiquetado, así que es un ajuste
+> *inference-time* sobre los partidos futuros (no toca el modelo base ni el backtest). Las magnitudes
+> son un prior heurístico **ajustable**, no validado con datos.
+
 ## 🚀 Instalación y uso
 
 ```bash
@@ -174,10 +188,12 @@ AlgoritmoPredict/
 │   ├── model.py             # 3. Dixon-Coles + zoo de predictores + blend
 │   ├── evaluate.py          # 4. backtest walk-forward + métricas
 │   ├── tune.py              # 5. optimización de hiperparámetros (RPS)
-│   └── simulate.py          # 6. Monte Carlo de la fase de grupos + front
+│   ├── availability.py      #    ajuste por lesiones/bajas (inference-time)
+│   └── simulate.py          # 6. Monte Carlo del torneo (grupos + eliminatorias) + front
 ├── assets/
 │   ├── wc2026_groups.csv    # los 12 grupos oficiales (48 selecciones)
-│   └── actual_results.csv   # resultados reales ya jugados (loop online)
+│   ├── actual_results.csv   # resultados reales ya jugados (loop online)
+│   └── unavailable_players.csv  # bajas confirmadas (ajuste por lesiones)
 ├── index.html               # front generado, autocontenido (raíz → GitHub Pages)
 ├── web/
 │   ├── template.html        # plantilla del front (diseño)
@@ -211,7 +227,7 @@ El proyecto se apoya conceptualmente en la literatura de modelos de Poisson para
 ## 🗺️ Roadmap
 
 - [x] Simulación de las **eliminatorias** (bracket completo) → probabilidad de campeón.
-- [ ] **Lesiones / disponibilidad** como feature de ajuste (vía API o carga manual).
+- [x] **Lesiones / disponibilidad** como feature de ajuste (carga manual de bajas confirmadas).
 - [ ] Factor **hinchada** para selecciones grandes (no por cercanía geográfica).
 - [ ] Testear el efecto **"partido inaugural"** sobre históricos.
 
