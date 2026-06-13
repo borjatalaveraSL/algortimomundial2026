@@ -261,7 +261,9 @@ def build_payload(agg, matches_out, gnames, groups, elo, cfg, track):
 def render_html(payload: dict, web_dir: Path):
     template = (web_dir / "template.html").read_text(encoding="utf-8")
     html = template.replace("__WC_DATA__", json.dumps(payload, ensure_ascii=False))
-    (web_dir / "index.html").write_text(html, encoding="utf-8")
+    # index.html en la RAÍZ del repo: así GitHub Pages lo sirve en la URL raíz
+    # (Pages busca index.html en la raíz; si no, renderiza el README).
+    (PROJECT_ROOT / "index.html").write_text(html, encoding="utf-8")
     (web_dir / "standings.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
@@ -344,7 +346,7 @@ def main() -> None:
         print(f"  → aciertos del ganador: {m['picks_correct']}/{m['n_played']}  |  RPS en vivo: {m['rps_live']}")
 
     print(f"\n{line}")
-    print(f"Front generado: {web_dir / 'index.html'}  (abrilo con doble clic)")
+    print(f"Front generado: {PROJECT_ROOT / 'index.html'}  (abrilo con doble clic / GitHub Pages)")
     print(f"Datos: {web_dir / 'standings.json'}")
 
 

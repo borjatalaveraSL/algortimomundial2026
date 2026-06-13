@@ -5,6 +5,8 @@ FIFA 2026 (y, de regalo, el marcador probable y la fase de grupos completa). Com
 **Dixon-Coles** (Poisson de goles) con un **rating Elo** propio, calibrado y validado sobre
 150 años de partidos internacionales, y se visualiza en un **front local autocontenido**.
 
+**🔴 [Ver la demo en vivo →](https://borjatalaverasl.github.io/algortimomundial2026/)**
+
 > 📊 Proyecto analítico y educativo. **No es asesoramiento de apuestas.**
 
 ---
@@ -110,8 +112,8 @@ de cada partido, arma las tablas con los **desempates oficiales FIFA** (puntos �
 goles a favor) y resuelve la clasificación (los 2 primeros de cada grupo + los **8 mejores terceros**,
 formato 2026). De ahí salen las probabilidades de ganar el grupo, clasificar, y los puntos esperados.
 
-El resultado se vuelca en **`web/index.html`**, una página **autocontenida** (datos embebidos, sin
-servidor ni conexión) que **se abre con doble clic**. Diseño tipo *broadcast* deportivo, con la barra
+El resultado se vuelca en **`index.html`** (en la raíz del repo, para que **GitHub Pages** lo sirva),
+una página **autocontenida** (datos embebidos, sin servidor ni conexión) que **se abre con doble clic**. Diseño tipo *broadcast* deportivo, con la barra
 de distribución de posición final por equipo, % de clasificación, los anfitriones marcados y las
 predicciones de cada partido.
 
@@ -146,7 +148,7 @@ python3 -m venv .venv
 .venv/bin/python -m src.simulate    # 6. simula la fase de grupos → web/index.html
 ```
 
-Después, abrí **`web/index.html`** con doble clic. Toda la configuración (ventana, decaimiento,
+Después, abrí **`index.html`** con doble clic (o miralo publicado en GitHub Pages). Toda la configuración (ventana, decaimiento,
 pesos del blend, parámetros de Elo, etc.) está centralizada en [`config.yaml`](config.yaml).
 
 ---
@@ -168,9 +170,10 @@ AlgoritmoPredict/
 ├── assets/
 │   ├── wc2026_groups.csv    # los 12 grupos oficiales (48 selecciones)
 │   └── actual_results.csv   # resultados reales ya jugados (loop online)
+├── index.html               # front generado, autocontenido (raíz → GitHub Pages)
 ├── web/
 │   ├── template.html        # plantilla del front (diseño)
-│   └── index.html           # front generado, autocontenido
+│   └── standings.json       # datos de la simulación (export JSON)
 └── data/                    # capas raw/clean/features (generadas; no versionadas)
 ```
 
