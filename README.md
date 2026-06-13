@@ -262,15 +262,6 @@ El proyecto se apoya conceptualmente en la literatura de modelos de Poisson para
 
 ---
 
-## 🗺️ Roadmap
-
-- [x] Simulación de las **eliminatorias** (bracket completo) → probabilidad de campeón.
-- [x] **Lesiones / disponibilidad** como feature de ajuste (carga manual de bajas confirmadas).
-- [ ] Factor **hinchada** para selecciones grandes (no por cercanía geográfica).
-- [ ] Testear el efecto **"partido inaugural"** sobre históricos.
-
----
-
 ## 📄 Licencia
 
 MIT — ver [LICENSE](LICENSE). Libre de usar, modificar y distribuir.
