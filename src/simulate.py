@@ -25,12 +25,12 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-try:
-    from src.model import build_blend, home_field
-    from src.elo import load_config
-    from src.team_names import canonical_name
-    from src.availability import load_unavailable
-except ImportError:  # pragma: no cover
+if __package__:  # python -m src.simulate
+    from .model import build_blend, home_field
+    from .elo import load_config
+    from .team_names import canonical_name
+    from .availability import load_unavailable
+else:            # python src/simulate.py
     from model import build_blend, home_field
     from elo import load_config
     from team_names import canonical_name

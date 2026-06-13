@@ -24,10 +24,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-try:
-    from src.model import BlendModel, UniformModel, build_blend
-    from src.elo import load_config
-except ImportError:  # pragma: no cover
+if __package__:  # python -m src.evaluate
+    from .model import BlendModel, UniformModel, build_blend
+    from .elo import load_config
+else:            # python src/evaluate.py
     from model import BlendModel, UniformModel, build_blend
     from elo import load_config
 

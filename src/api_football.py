@@ -25,10 +25,10 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-try:
-    from src.elo import load_config
-    from src.team_names import canonical_name
-except ImportError:  # pragma: no cover
+if __package__:  # python -m src.api_football
+    from .elo import load_config
+    from .team_names import canonical_name
+else:            # python src/api_football.py
     from elo import load_config
     from team_names import canonical_name
 

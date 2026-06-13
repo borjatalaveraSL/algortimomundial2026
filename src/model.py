@@ -22,10 +22,10 @@ import numpy as np
 import pandas as pd
 from penaltyblog.models import DixonColesGoalModel
 
-try:
-    from src.elo import compute_elo, elo_1x2, load_config
-    from src.availability import adjusted_lambdas, outcome_from_lambdas, load_unavailable
-except ImportError:  # pragma: no cover
+if __package__:  # python -m src.model
+    from .elo import compute_elo, elo_1x2, load_config
+    from .availability import adjusted_lambdas, outcome_from_lambdas, load_unavailable
+else:            # python src/model.py
     from elo import compute_elo, elo_1x2, load_config
     from availability import adjusted_lambdas, outcome_from_lambdas, load_unavailable
 

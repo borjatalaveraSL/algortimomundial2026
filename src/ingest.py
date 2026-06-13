@@ -24,9 +24,9 @@ import pandas as pd
 import requests
 import yaml
 
-try:  # funciona tanto con `python -m src.ingest` como con `python src/ingest.py`
-    from src.team_names import apply_former_names, canonical_name, team_slug
-except ImportError:  # pragma: no cover
+if __package__:  # python -m src.ingest
+    from .team_names import apply_former_names, canonical_name, team_slug
+else:            # python src/ingest.py
     from team_names import apply_former_names, canonical_name, team_slug
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]

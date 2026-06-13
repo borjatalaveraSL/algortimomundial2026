@@ -17,9 +17,9 @@ import numpy as np
 import pandas as pd
 from scipy.stats import poisson
 
-try:
-    from src.team_names import canonical_name
-except ImportError:  # pragma: no cover
+if __package__:  # python -m src.availability
+    from .team_names import canonical_name
+else:            # python src/availability.py
     from team_names import canonical_name
 
 
