@@ -51,6 +51,18 @@
   .chip b{color:var(--lime); font-weight:700}
   .chip.amber b{color:var(--amber)}
 
+  /* ---------- TABS / VISTAS ---------- */
+  .tabs{max-width:1280px; margin:28px auto 0; padding:0 26px; display:flex; gap:4px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line)}
+  .tabs button{font-family:var(--body); font-weight:600; font-size:14.5px; color:var(--muted);
+    background:none; border:none; border-bottom:2px solid transparent; padding:12px 16px; cursor:pointer;
+    margin-bottom:-1px; transition:color .15s, border-color .15s}
+  .tabs button:hover{color:var(--ink)}
+  .tabs button.active{color:var(--lime); border-bottom-color:var(--lime)}
+  .view[hidden]{display:none}
+  .view{animation:fadeview .42s ease}
+  @keyframes fadeview{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+
   /* ---------- LEGEND ---------- */
   .legend{max-width:1280px; margin:6px auto 0; padding:0 26px; display:flex; flex-wrap:wrap;
     gap:18px 26px; align-items:center; color:var(--muted); font-size:12.5px}
@@ -171,22 +183,37 @@
 <body>
 <header>
   <div class="kicker">FIFA World Cup 2026 · USA · Canadá · México</div>
-  <h1>Predictor<em>Fase de grupos</em></h1>
-  <p class="sub">Posiciones finales esperadas y probabilidad de clasificación de las 48 selecciones,
-    estimadas por simulación de Monte Carlo sobre un modelo Dixon-Coles + Elo calibrado.</p>
+  <h1>Predictor<em>Mundial 2026</em></h1>
+  <p class="sub">Pronóstico completo del Mundial — del título a la fase de grupos — por simulación de
+    Monte Carlo sobre un modelo Dixon-Coles + Elo calibrado.</p>
   <div class="meta" id="meta"></div>
 </header>
-<div class="legend">
-  <span class="sw qz">Zona de clasificación (1º y 2º)</span>
-  <span class="sw"><i class="s1"></i> 1º</span>
-  <span class="sw"><i class="s2"></i> 2º</span>
-  <span class="sw"><i class="s3"></i> 3º</span>
-  <span class="sw"><i class="s4"></i> 4º</span>
-  <span class="sw" style="color:var(--amber)">★ anfitrión / localía</span>
-</div>
-<section class="tracker" id="tracker"></section>
-<section class="trace" id="titlerace"></section>
-<main id="board"></main>
+<nav class="tabs" id="tabs">
+  <button data-view="titulo" class="active">🏆 Camino al título</button>
+  <button data-view="grupos">Fase de grupos</button>
+  <button data-view="resultados" id="tab-res">Resultados reales</button>
+</nav>
+
+<section class="view" id="view-titulo">
+  <section class="trace" id="titlerace"></section>
+</section>
+
+<section class="view" id="view-grupos" hidden>
+  <div class="legend">
+    <span class="sw qz">Zona de clasificación (1º y 2º)</span>
+    <span class="sw"><i class="s1"></i> 1º</span>
+    <span class="sw"><i class="s2"></i> 2º</span>
+    <span class="sw"><i class="s3"></i> 3º</span>
+    <span class="sw"><i class="s4"></i> 4º</span>
+    <span class="sw" style="color:var(--amber)">★ anfitrión / localía</span>
+  </div>
+  <main id="board"></main>
+</section>
+
+<section class="view" id="view-resultados" hidden>
+  <section class="tracker" id="tracker"></section>
+</section>
+
 <footer id="foot"></footer>
 
 <script>
@@ -335,6 +362,24 @@ DATA.groups.forEach((g, gi) => {
 document.getElementById("foot").innerHTML = `
   <span>Clasifican los <b>2 primeros de cada grupo</b> + los <b>8 mejores terceros</b> (32 selecciones).</span>
   <span>Generado localmente · sin conexión · <b>AlgoritmoPredict</b></span>`;
+
+// navegación por pestañas (vistas)
+const VIEWS = ["titulo", "grupos", "resultados"];
+if (!(DATA.played && DATA.played.length)) {
+  document.getElementById("tab-res").hidden = true;   // sin partidos jugados → sin pestaña de resultados
+}
+function showView(v) {
+  document.querySelectorAll(".view").forEach(s => {
+    const on = s.id === "view-" + v;
+    s.hidden = !on;
+    if (on) { s.style.animation = "none"; void s.offsetWidth; s.style.animation = ""; }
+  });
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.view === v));
+  if (location.hash.slice(1) !== v) history.replaceState(null, "", "#" + v);
+}
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => showView(b.dataset.view)));
+const h = location.hash.slice(1);
+showView(VIEWS.includes(h) ? h : "titulo");
 
 // animaciones: revelar tarjetas + animar barras
 requestAnimationFrame(() => {
