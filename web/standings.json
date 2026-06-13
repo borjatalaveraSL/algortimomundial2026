@@ -30,6 +30,7 @@
           "p_top2": 0.824,
           "p_third_adv": 0.108,
           "p_qualify": 0.931,
+          "p_champion": 0.01,
           "exp_points": 6.05,
           "exp_gd": 2.63
         },
@@ -44,6 +45,7 @@
           "p_top2": 0.8,
           "p_third_adv": 0.145,
           "p_qualify": 0.945,
+          "p_champion": 0.006,
           "exp_points": 5.72,
           "exp_gd": 0.9
         },
@@ -58,6 +60,7 @@
           "p_top2": 0.195,
           "p_third_adv": 0.293,
           "p_qualify": 0.488,
+          "p_champion": 0.002,
           "exp_points": 2.54,
           "exp_gd": -1.29
         },
@@ -72,6 +75,7 @@
           "p_top2": 0.182,
           "p_third_adv": 0.18,
           "p_qualify": 0.362,
+          "p_champion": 0.0,
           "exp_points": 2.35,
           "exp_gd": -2.24
         }
@@ -171,6 +175,7 @@
           "p_top2": 0.705,
           "p_third_adv": 0.139,
           "p_qualify": 0.844,
+          "p_champion": 0.009,
           "exp_points": 4.63,
           "exp_gd": 1.28
         },
@@ -185,6 +190,7 @@
           "p_top2": 0.681,
           "p_third_adv": 0.161,
           "p_qualify": 0.841,
+          "p_champion": 0.003,
           "exp_points": 4.46,
           "exp_gd": 1.04
         },
@@ -199,6 +205,7 @@
           "p_top2": 0.392,
           "p_third_adv": 0.222,
           "p_qualify": 0.614,
+          "p_champion": 0.0,
           "exp_points": 3.36,
           "exp_gd": -0.53
         },
@@ -213,6 +220,7 @@
           "p_top2": 0.223,
           "p_third_adv": 0.157,
           "p_qualify": 0.38,
+          "p_champion": 0.0,
           "exp_points": 2.53,
           "exp_gd": -1.79
         }
@@ -312,6 +320,7 @@
           "p_top2": 0.931,
           "p_third_adv": 0.055,
           "p_qualify": 0.986,
+          "p_champion": 0.121,
           "exp_points": 6.92,
           "exp_gd": 5.15
         },
@@ -326,6 +335,7 @@
           "p_top2": 0.714,
           "p_third_adv": 0.184,
           "p_qualify": 0.898,
+          "p_champion": 0.02,
           "exp_points": 5.11,
           "exp_gd": 1.6
         },
@@ -340,6 +350,7 @@
           "p_top2": 0.311,
           "p_third_adv": 0.347,
           "p_qualify": 0.657,
+          "p_champion": 0.003,
           "exp_points": 3.43,
           "exp_gd": -0.92
         },
@@ -354,6 +365,7 @@
           "p_top2": 0.044,
           "p_third_adv": 0.083,
           "p_qualify": 0.127,
+          "p_champion": 0.0,
           "exp_points": 1.22,
           "exp_gd": -5.82
         }
@@ -453,6 +465,7 @@
           "p_top2": 0.825,
           "p_third_adv": 0.129,
           "p_qualify": 0.954,
+          "p_champion": 0.005,
           "exp_points": 6.17,
           "exp_gd": 1.63
         },
@@ -467,6 +480,7 @@
           "p_top2": 0.511,
           "p_third_adv": 0.196,
           "p_qualify": 0.707,
+          "p_champion": 0.004,
           "exp_points": 4.14,
           "exp_gd": 0.07
         },
@@ -481,6 +495,7 @@
           "p_top2": 0.457,
           "p_third_adv": 0.199,
           "p_qualify": 0.656,
+          "p_champion": 0.004,
           "exp_points": 3.84,
           "exp_gd": -0.29
         },
@@ -495,6 +510,7 @@
           "p_top2": 0.207,
           "p_third_adv": 0.209,
           "p_qualify": 0.416,
+          "p_champion": 0.001,
           "exp_points": 2.35,
           "exp_gd": -1.41
         }
@@ -594,6 +610,7 @@
           "p_top2": 0.858,
           "p_third_adv": 0.12,
           "p_qualify": 0.978,
+          "p_champion": 0.051,
           "exp_points": 6.4,
           "exp_gd": 4.85
         },
@@ -608,6 +625,7 @@
           "p_top2": 0.725,
           "p_third_adv": 0.212,
           "p_qualify": 0.937,
+          "p_champion": 0.02,
           "exp_points": 5.51,
           "exp_gd": 2.31
         },
@@ -622,6 +640,7 @@
           "p_top2": 0.401,
           "p_third_adv": 0.395,
           "p_qualify": 0.796,
+          "p_champion": 0.003,
           "exp_points": 4.1,
           "exp_gd": 0.31
         },
@@ -636,6 +655,7 @@
           "p_top2": 0.016,
           "p_third_adv": 0.039,
           "p_qualify": 0.054,
+          "p_champion": 0.0,
           "exp_points": 0.77,
           "exp_gd": -7.47
         }
@@ -735,6 +755,7 @@
           "p_top2": 0.789,
           "p_third_adv": 0.12,
           "p_qualify": 0.909,
+          "p_champion": 0.027,
           "exp_points": 5.76,
           "exp_gd": 2.32
         },
@@ -749,6 +770,7 @@
           "p_top2": 0.6,
           "p_third_adv": 0.184,
           "p_qualify": 0.784,
+          "p_champion": 0.011,
           "exp_points": 4.56,
           "exp_gd": 0.52
         },
@@ -763,6 +785,7 @@
           "p_top2": 0.363,
           "p_third_adv": 0.216,
           "p_qualify": 0.579,
+          "p_champion": 0.003,
           "exp_points": 3.34,
           "exp_gd": -1.02
         },
@@ -777,6 +800,7 @@
           "p_top2": 0.248,
           "p_third_adv": 0.19,
           "p_qualify": 0.438,
+          "p_champion": 0.001,
           "exp_points": 2.7,
           "exp_gd": -1.82
         }
@@ -876,6 +900,7 @@
           "p_top2": 0.87,
           "p_third_adv": 0.087,
           "p_qualify": 0.957,
+          "p_champion": 0.055,
           "exp_points": 6.34,
           "exp_gd": 3.48
         },
@@ -890,6 +915,7 @@
           "p_top2": 0.603,
           "p_third_adv": 0.207,
           "p_qualify": 0.81,
+          "p_champion": 0.006,
           "exp_points": 4.57,
           "exp_gd": 0.61
         },
@@ -904,6 +930,7 @@
           "p_top2": 0.422,
           "p_third_adv": 0.259,
           "p_qualify": 0.681,
+          "p_champion": 0.003,
           "exp_points": 3.77,
           "exp_gd": -0.4
         },
@@ -918,6 +945,7 @@
           "p_top2": 0.105,
           "p_third_adv": 0.114,
           "p_qualify": 0.219,
+          "p_champion": 0.0,
           "exp_points": 1.73,
           "exp_gd": -3.69
         }
@@ -1017,6 +1045,7 @@
           "p_top2": 0.964,
           "p_third_adv": 0.027,
           "p_qualify": 0.991,
+          "p_champion": 0.131,
           "exp_points": 7.17,
           "exp_gd": 4.89
         },
@@ -1031,6 +1060,7 @@
           "p_top2": 0.829,
           "p_third_adv": 0.098,
           "p_qualify": 0.927,
+          "p_champion": 0.025,
           "exp_points": 5.45,
           "exp_gd": 1.92
         },
@@ -1045,6 +1075,7 @@
           "p_top2": 0.111,
           "p_third_adv": 0.204,
           "p_qualify": 0.316,
+          "p_champion": 0.0,
           "exp_points": 2.11,
           "exp_gd": -3.26
         },
@@ -1059,6 +1090,7 @@
           "p_top2": 0.096,
           "p_third_adv": 0.185,
           "p_qualify": 0.281,
+          "p_champion": 0.0,
           "exp_points": 1.93,
           "exp_gd": -3.54
         }
@@ -1158,6 +1190,7 @@
           "p_top2": 0.879,
           "p_third_adv": 0.083,
           "p_qualify": 0.962,
+          "p_champion": 0.081,
           "exp_points": 6.49,
           "exp_gd": 3.49
         },
@@ -1172,6 +1205,7 @@
           "p_top2": 0.52,
           "p_third_adv": 0.24,
           "p_qualify": 0.76,
+          "p_champion": 0.008,
           "exp_points": 4.19,
           "exp_gd": 0.12
         },
@@ -1186,6 +1220,7 @@
           "p_top2": 0.507,
           "p_third_adv": 0.242,
           "p_qualify": 0.75,
+          "p_champion": 0.008,
           "exp_points": 4.17,
           "exp_gd": 0.09
         },
@@ -1200,6 +1235,7 @@
           "p_top2": 0.094,
           "p_third_adv": 0.114,
           "p_qualify": 0.208,
+          "p_champion": 0.0,
           "exp_points": 1.64,
           "exp_gd": -3.7
         }
@@ -1299,6 +1335,7 @@
           "p_top2": 0.934,
           "p_third_adv": 0.051,
           "p_qualify": 0.985,
+          "p_champion": 0.153,
           "exp_points": 7.05,
           "exp_gd": 4.51
         },
@@ -1313,6 +1350,7 @@
           "p_top2": 0.509,
           "p_third_adv": 0.248,
           "p_qualify": 0.757,
+          "p_champion": 0.005,
           "exp_points": 4.11,
           "exp_gd": 0.12
         },
@@ -1327,6 +1365,7 @@
           "p_top2": 0.472,
           "p_third_adv": 0.256,
           "p_qualify": 0.728,
+          "p_champion": 0.004,
           "exp_points": 3.94,
           "exp_gd": -0.17
         },
@@ -1341,6 +1380,7 @@
           "p_top2": 0.084,
           "p_third_adv": 0.106,
           "p_qualify": 0.19,
+          "p_champion": 0.0,
           "exp_points": 1.53,
           "exp_gd": -4.46
         }
@@ -1440,6 +1480,7 @@
           "p_top2": 0.86,
           "p_third_adv": 0.087,
           "p_qualify": 0.947,
+          "p_champion": 0.071,
           "exp_points": 6.01,
           "exp_gd": 2.79
         },
@@ -1454,6 +1495,7 @@
           "p_top2": 0.841,
           "p_third_adv": 0.095,
           "p_qualify": 0.936,
+          "p_champion": 0.059,
           "exp_points": 5.87,
           "exp_gd": 2.46
         },
@@ -1468,6 +1510,7 @@
           "p_top2": 0.166,
           "p_third_adv": 0.222,
           "p_qualify": 0.387,
+          "p_champion": 0.001,
           "exp_points": 2.43,
           "exp_gd": -2.44
         },
@@ -1482,6 +1525,7 @@
           "p_top2": 0.134,
           "p_third_adv": 0.19,
           "p_qualify": 0.323,
+          "p_champion": 0.0,
           "exp_points": 2.15,
           "exp_gd": -2.8
         }
@@ -1581,6 +1625,7 @@
           "p_top2": 0.923,
           "p_third_adv": 0.055,
           "p_qualify": 0.978,
+          "p_champion": 0.065,
           "exp_points": 6.72,
           "exp_gd": 3.94
         },
@@ -1595,6 +1640,7 @@
           "p_top2": 0.772,
           "p_third_adv": 0.125,
           "p_qualify": 0.897,
+          "p_champion": 0.019,
           "exp_points": 5.29,
           "exp_gd": 1.78
         },
@@ -1609,6 +1655,7 @@
           "p_top2": 0.159,
           "p_third_adv": 0.212,
           "p_qualify": 0.371,
+          "p_champion": 0.0,
           "exp_points": 2.35,
           "exp_gd": -3.01
         },
@@ -1623,6 +1670,7 @@
           "p_top2": 0.147,
           "p_third_adv": 0.211,
           "p_qualify": 0.358,
+          "p_champion": 0.0,
           "exp_points": 2.24,
           "exp_gd": -2.71
         }
@@ -1765,6 +1813,440 @@
       "correct": true,
       "p_actual": 0.466,
       "rps": 0.173
+    }
+  ],
+  "title_race": [
+    {
+      "team": "Argentina",
+      "elo": 2135,
+      "p_champion": 0.1535,
+      "p_final": 0.231,
+      "p_sf": 0.351,
+      "p_qf": 0.503,
+      "p_r16": 0.664
+    },
+    {
+      "team": "Spain",
+      "elo": 2146,
+      "p_champion": 0.1313,
+      "p_final": 0.217,
+      "p_sf": 0.327,
+      "p_qf": 0.46,
+      "p_r16": 0.678
+    },
+    {
+      "team": "Brazil",
+      "elo": 2036,
+      "p_champion": 0.1213,
+      "p_final": 0.198,
+      "p_sf": 0.336,
+      "p_qf": 0.505,
+      "p_r16": 0.712
+    },
+    {
+      "team": "France",
+      "elo": 2072,
+      "p_champion": 0.081,
+      "p_final": 0.149,
+      "p_sf": 0.273,
+      "p_qf": 0.429,
+      "p_r16": 0.683
+    },
+    {
+      "team": "Portugal",
+      "elo": 2000,
+      "p_champion": 0.0706,
+      "p_final": 0.136,
+      "p_sf": 0.239,
+      "p_qf": 0.416,
+      "p_r16": 0.653
+    },
+    {
+      "team": "England",
+      "elo": 2034,
+      "p_champion": 0.0652,
+      "p_final": 0.126,
+      "p_sf": 0.234,
+      "p_qf": 0.416,
+      "p_r16": 0.65
+    },
+    {
+      "team": "Colombia",
+      "elo": 2014,
+      "p_champion": 0.0587,
+      "p_final": 0.119,
+      "p_sf": 0.217,
+      "p_qf": 0.392,
+      "p_r16": 0.632
+    },
+    {
+      "team": "Belgium",
+      "elo": 1932,
+      "p_champion": 0.0551,
+      "p_final": 0.114,
+      "p_sf": 0.204,
+      "p_qf": 0.421,
+      "p_r16": 0.683
+    },
+    {
+      "team": "Germany",
+      "elo": 1963,
+      "p_champion": 0.0508,
+      "p_final": 0.109,
+      "p_sf": 0.219,
+      "p_qf": 0.372,
+      "p_r16": 0.677
+    },
+    {
+      "team": "Netherlands",
+      "elo": 1972,
+      "p_champion": 0.0271,
+      "p_final": 0.065,
+      "p_sf": 0.149,
+      "p_qf": 0.293,
+      "p_r16": 0.464
+    },
+    {
+      "team": "Uruguay",
+      "elo": 1940,
+      "p_champion": 0.0254,
+      "p_final": 0.06,
+      "p_sf": 0.125,
+      "p_qf": 0.242,
+      "p_r16": 0.427
+    },
+    {
+      "team": "Morocco",
+      "elo": 1939,
+      "p_champion": 0.0204,
+      "p_final": 0.051,
+      "p_sf": 0.126,
+      "p_qf": 0.27,
+      "p_r16": 0.474
+    },
+    {
+      "team": "Ecuador",
+      "elo": 1969,
+      "p_champion": 0.0204,
+      "p_final": 0.051,
+      "p_sf": 0.12,
+      "p_qf": 0.241,
+      "p_r16": 0.526
+    },
+    {
+      "team": "Croatia",
+      "elo": 1935,
+      "p_champion": 0.0192,
+      "p_final": 0.048,
+      "p_sf": 0.105,
+      "p_qf": 0.221,
+      "p_r16": 0.454
+    },
+    {
+      "team": "Japan",
+      "elo": 1960,
+      "p_champion": 0.0106,
+      "p_final": 0.03,
+      "p_sf": 0.077,
+      "p_qf": 0.176,
+      "p_r16": 0.348
+    },
+    {
+      "team": "Mexico",
+      "elo": 1921,
+      "p_champion": 0.0103,
+      "p_final": 0.03,
+      "p_sf": 0.086,
+      "p_qf": 0.219,
+      "p_r16": 0.512
+    },
+    {
+      "team": "Switzerland",
+      "elo": 1913,
+      "p_champion": 0.0089,
+      "p_final": 0.027,
+      "p_sf": 0.073,
+      "p_qf": 0.201,
+      "p_r16": 0.474
+    },
+    {
+      "team": "Senegal",
+      "elo": 1883,
+      "p_champion": 0.0076,
+      "p_final": 0.024,
+      "p_sf": 0.068,
+      "p_qf": 0.161,
+      "p_r16": 0.374
+    },
+    {
+      "team": "Norway",
+      "elo": 1898,
+      "p_champion": 0.0076,
+      "p_final": 0.023,
+      "p_sf": 0.063,
+      "p_qf": 0.153,
+      "p_r16": 0.367
+    },
+    {
+      "team": "Iran",
+      "elo": 1878,
+      "p_champion": 0.006,
+      "p_final": 0.018,
+      "p_sf": 0.055,
+      "p_qf": 0.16,
+      "p_r16": 0.426
+    },
+    {
+      "team": "South Korea",
+      "elo": 1880,
+      "p_champion": 0.0056,
+      "p_final": 0.019,
+      "p_sf": 0.062,
+      "p_qf": 0.18,
+      "p_r16": 0.485
+    },
+    {
+      "team": "United States",
+      "elo": 1829,
+      "p_champion": 0.0048,
+      "p_final": 0.018,
+      "p_sf": 0.05,
+      "p_qf": 0.166,
+      "p_r16": 0.465
+    },
+    {
+      "team": "Austria",
+      "elo": 1843,
+      "p_champion": 0.0046,
+      "p_final": 0.016,
+      "p_sf": 0.041,
+      "p_qf": 0.115,
+      "p_r16": 0.268
+    },
+    {
+      "team": "Algeria",
+      "elo": 1853,
+      "p_champion": 0.0044,
+      "p_final": 0.015,
+      "p_sf": 0.043,
+      "p_qf": 0.114,
+      "p_r16": 0.26
+    },
+    {
+      "team": "Australia",
+      "elo": 1873,
+      "p_champion": 0.0043,
+      "p_final": 0.013,
+      "p_sf": 0.039,
+      "p_qf": 0.104,
+      "p_r16": 0.29
+    },
+    {
+      "team": "Turkey",
+      "elo": 1897,
+      "p_champion": 0.0043,
+      "p_final": 0.015,
+      "p_sf": 0.043,
+      "p_qf": 0.122,
+      "p_r16": 0.333
+    },
+    {
+      "team": "Sweden",
+      "elo": 1742,
+      "p_champion": 0.0034,
+      "p_final": 0.011,
+      "p_sf": 0.03,
+      "p_qf": 0.089,
+      "p_r16": 0.214
+    },
+    {
+      "team": "Ivory Coast",
+      "elo": 1789,
+      "p_champion": 0.0032,
+      "p_final": 0.013,
+      "p_sf": 0.04,
+      "p_qf": 0.118,
+      "p_r16": 0.337
+    },
+    {
+      "team": "Scotland",
+      "elo": 1792,
+      "p_champion": 0.0029,
+      "p_final": 0.01,
+      "p_sf": 0.034,
+      "p_qf": 0.097,
+      "p_r16": 0.24
+    },
+    {
+      "team": "Egypt",
+      "elo": 1778,
+      "p_champion": 0.0028,
+      "p_final": 0.011,
+      "p_sf": 0.033,
+      "p_qf": 0.104,
+      "p_r16": 0.318
+    },
+    {
+      "team": "Canada",
+      "elo": 1841,
+      "p_champion": 0.0027,
+      "p_final": 0.009,
+      "p_sf": 0.032,
+      "p_qf": 0.112,
+      "p_r16": 0.367
+    },
+    {
+      "team": "Czechia",
+      "elo": 1752,
+      "p_champion": 0.0015,
+      "p_final": 0.006,
+      "p_sf": 0.022,
+      "p_qf": 0.07,
+      "p_r16": 0.196
+    },
+    {
+      "team": "Paraguay",
+      "elo": 1832,
+      "p_champion": 0.0014,
+      "p_final": 0.004,
+      "p_sf": 0.017,
+      "p_qf": 0.049,
+      "p_r16": 0.153
+    },
+    {
+      "team": "Tunisia",
+      "elo": 1740,
+      "p_champion": 0.0008,
+      "p_final": 0.004,
+      "p_sf": 0.014,
+      "p_qf": 0.049,
+      "p_r16": 0.141
+    },
+    {
+      "team": "Uzbekistan",
+      "elo": 1790,
+      "p_champion": 0.0006,
+      "p_final": 0.002,
+      "p_sf": 0.01,
+      "p_qf": 0.035,
+      "p_r16": 0.114
+    },
+    {
+      "team": "South Africa",
+      "elo": 1640,
+      "p_champion": 0.0003,
+      "p_final": 0.001,
+      "p_sf": 0.006,
+      "p_qf": 0.028,
+      "p_r16": 0.109
+    },
+    {
+      "team": "Bosnia and Herzegovina",
+      "elo": 1649,
+      "p_champion": 0.0003,
+      "p_final": 0.002,
+      "p_sf": 0.012,
+      "p_qf": 0.054,
+      "p_r16": 0.213
+    },
+    {
+      "team": "Saudi Arabia",
+      "elo": 1678,
+      "p_champion": 0.0003,
+      "p_final": 0.001,
+      "p_sf": 0.004,
+      "p_qf": 0.018,
+      "p_r16": 0.07
+    },
+    {
+      "team": "DR Congo",
+      "elo": 1729,
+      "p_champion": 0.0003,
+      "p_final": 0.001,
+      "p_sf": 0.007,
+      "p_qf": 0.026,
+      "p_r16": 0.089
+    },
+    {
+      "team": "Qatar",
+      "elo": 1564,
+      "p_champion": 0.0001,
+      "p_final": 0.001,
+      "p_sf": 0.002,
+      "p_qf": 0.016,
+      "p_r16": 0.093
+    },
+    {
+      "team": "Iraq",
+      "elo": 1717,
+      "p_champion": 0.0001,
+      "p_final": 0.001,
+      "p_sf": 0.003,
+      "p_qf": 0.014,
+      "p_r16": 0.057
+    },
+    {
+      "team": "Ghana",
+      "elo": 1632,
+      "p_champion": 0.0001,
+      "p_final": 0.001,
+      "p_sf": 0.003,
+      "p_qf": 0.018,
+      "p_r16": 0.07
+    },
+    {
+      "team": "Panama",
+      "elo": 1805,
+      "p_champion": 0.0001,
+      "p_final": 0.001,
+      "p_sf": 0.004,
+      "p_qf": 0.02,
+      "p_r16": 0.079
+    },
+    {
+      "team": "Haiti",
+      "elo": 1688,
+      "p_champion": 0.0,
+      "p_final": 0.0,
+      "p_sf": 0.001,
+      "p_qf": 0.003,
+      "p_r16": 0.019
+    },
+    {
+      "team": "Curaçao",
+      "elo": 1587,
+      "p_champion": 0.0,
+      "p_final": 0.0,
+      "p_sf": 0.0,
+      "p_qf": 0.001,
+      "p_r16": 0.005
+    },
+    {
+      "team": "New Zealand",
+      "elo": 1714,
+      "p_champion": 0.0,
+      "p_final": 0.0,
+      "p_sf": 0.001,
+      "p_qf": 0.008,
+      "p_r16": 0.053
+    },
+    {
+      "team": "Cape Verde",
+      "elo": 1644,
+      "p_champion": 0.0,
+      "p_final": 0.0,
+      "p_sf": 0.002,
+      "p_qf": 0.011,
+      "p_r16": 0.049
+    },
+    {
+      "team": "Jordan",
+      "elo": 1740,
+      "p_champion": 0.0,
+      "p_final": 0.0,
+      "p_sf": 0.001,
+      "p_qf": 0.007,
+      "p_r16": 0.034
     }
   ]
 }

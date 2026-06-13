@@ -117,9 +117,95 @@ def actuals_to_training(adf: pd.DataFrame) -> pd.DataFrame:
 
 
 # --------------------------------------------------------------------------- #
+# Bracket del Mundial 2026 (estructura oficial; portada de Oloraculo)
+#   slot: ("W", grupo)=ganador · ("R", grupo)=segundo ·
+#         ("T", [grupos])=tercero (opciones) · ("WO", tie_id)=ganador de un cruce
+# --------------------------------------------------------------------------- #
+R32 = [
+    (73, ("R", "A"), ("R", "B")),
+    (74, ("W", "E"), ("T", ["A", "B", "C", "D", "F"])),
+    (75, ("W", "F"), ("R", "C")),
+    (76, ("W", "C"), ("R", "F")),
+    (77, ("W", "I"), ("T", ["C", "D", "F", "G", "H"])),
+    (78, ("R", "E"), ("R", "I")),
+    (79, ("W", "A"), ("T", ["C", "E", "F", "H", "I"])),
+    (80, ("W", "L"), ("T", ["E", "H", "I", "J", "K"])),
+    (81, ("W", "D"), ("T", ["B", "E", "F", "I", "J"])),
+    (82, ("W", "G"), ("T", ["A", "E", "H", "I", "J"])),
+    (83, ("R", "K"), ("R", "L")),
+    (84, ("W", "H"), ("R", "J")),
+    (85, ("W", "B"), ("T", ["E", "F", "G", "I", "J"])),
+    (86, ("W", "J"), ("R", "H")),
+    (87, ("W", "K"), ("T", ["D", "E", "I", "J", "L"])),
+    (88, ("R", "D"), ("R", "G")),
+]
+R16 = [
+    (89, ("WO", 74), ("WO", 77)), (90, ("WO", 73), ("WO", 75)),
+    (91, ("WO", 76), ("WO", 78)), (92, ("WO", 79), ("WO", 80)),
+    (93, ("WO", 83), ("WO", 84)), (94, ("WO", 81), ("WO", 82)),
+    (95, ("WO", 86), ("WO", 88)), (96, ("WO", 85), ("WO", 87)),
+]
+QF = [(97, ("WO", 89), ("WO", 90)), (98, ("WO", 93), ("WO", 94)),
+      (99, ("WO", 91), ("WO", 92)), (100, ("WO", 95), ("WO", 96))]
+SF = [(101, ("WO", 97), ("WO", 98)), (102, ("WO", 99), ("WO", 100))]
+FINAL = (104, ("WO", 101), ("WO", 102))
+KO_TIES = R32 + R16 + QF + SF + [FINAL]
+R32_IDS = [t[0] for t in R32]
+R16_IDS = [t[0] for t in R16]
+QF_IDS = [t[0] for t in QF]
+SF_IDS = [t[0] for t in SF]
+
+
+def assign_thirds(qualified: tuple) -> dict:
+    """Asigna los 8 grupos con tercero clasificado a los 8 slots de R32
+    respetando las opciones oficiales (backtracking = tabla FIFA 2026)."""
+    qset = set(qualified)
+    slots = [(tie_id, s[1]) for tie_id, sa, sb in R32 for s in (sa, sb) if s[0] == "T"]
+    slots.sort(key=lambda s: (sum(g in qset for g in s[1]), s[0]))
+    assigned, used = {}, set()
+
+    def rec(i):
+        if i == len(slots):
+            return True
+        tie_id, opts = slots[i]
+        for g in sorted((g for g in opts if g in qset), key=lambda x: ord(x) - 65):
+            if g in used:
+                continue
+            used.add(g); assigned[tie_id] = g
+            if rec(i + 1):
+                return True
+            used.discard(g); assigned.pop(tie_id, None)
+        return False
+
+    rec(0)
+    return assigned
+
+
+def load_pen_skill(cfg, k: float = 6.0):
+    """Devuelve skill(team) = win-rate en definiciones por penales, con shrinkage
+    hacia 0.5 (pseudo-conteo k). Captura el temple/presión de cada selección."""
+    raw = PROJECT_ROOT / cfg["data"]["raw_dir"] / cfg["data"]["shootouts_file"]
+    src = raw if raw.exists() else f'{cfg["data"]["base_url"]}/{cfg["data"]["shootouts_file"]}'
+    s = pd.read_csv(src)
+    for c in ("home_team", "away_team", "winner"):
+        s[c] = s[c].map(lambda x: canonical_name(x) if isinstance(x, str) else x)
+    wins, n = {}, {}
+    for r in s.itertuples(index=False):
+        n[r.home_team] = n.get(r.home_team, 0) + 1
+        n[r.away_team] = n.get(r.away_team, 0) + 1
+        if isinstance(r.winner, str):
+            wins[r.winner] = wins.get(r.winner, 0) + 1
+
+    def skill(t):
+        return (wins.get(t, 0) + k * 0.5) / (n.get(t, 0) + k)
+    return skill
+
+
+# --------------------------------------------------------------------------- #
 # Simulación
 # --------------------------------------------------------------------------- #
-def run(blend, blend_pre, groups: dict, lookup: dict, hosts: list[str], n: int, seed: int, actuals: dict):
+def run(blend, blend_pre, groups: dict, lookup: dict, hosts: list[str], n: int, seed: int,
+        actuals: dict, pen_skill):
     """`blend` (post, con lo jugado) predice/simula lo que falta;
     `blend_pre` (sin lo jugado) predice los partidos jugados para un tracker honesto (sin leakage)."""
     rng = np.random.default_rng(seed)
@@ -173,6 +259,7 @@ def run(blend, blend_pre, groups: dict, lookup: dict, hosts: list[str], n: int, 
 
     # Tablas por grupo + recolección de terceros
     thirds_key, thirds_team = [], []
+    winner_arr, runnerup_arr, third_arr = {}, {}, {}
     for g in gnames:
         teams = groups[g]
         idx = {t: i for i, t in enumerate(teams)}
@@ -186,7 +273,12 @@ def run(blend, blend_pre, groups: dict, lookup: dict, hosts: list[str], n: int, 
         gd = gf - ga
         # Clave de orden: puntos → dif. gol → goles a favor → azar (desempate)
         key = pts * 1e6 + (gd + 100) * 1e3 + gf * 10 + rng.random((4, n))
-        ranks = np.argsort(np.argsort(-key, axis=0), axis=0)  # 0 = mejor
+        order = np.argsort(-key, axis=0)      # order[0] = ganador del grupo
+        ranks = np.argsort(order, axis=0)     # rank por equipo (0 = mejor)
+        teams_arr = np.array(teams)
+        winner_arr[g] = teams_arr[order[0]]
+        runnerup_arr[g] = teams_arr[order[1]]
+        third_arr[g] = teams_arr[order[2]]
 
         for t in teams:
             i = idx[t]
@@ -212,6 +304,73 @@ def run(blend, blend_pre, groups: dict, lookup: dict, hosts: list[str], n: int, 
         for t in groups[g]:
             agg[t]["q_third"] += float(((TT[gi] == t) & advances[gi]).sum())
 
+    # ----- FASE DE ELIMINACIÓN (bracket 2026, por iteración) -----
+    from functools import lru_cache
+    ko = {t: dict(r16=0, qf=0, sf=0, final=0, champ=0) for g in gnames for t in groups[g]}
+    reg_cache, pen_cache = {}, {}
+
+    def regprob(a, b):
+        v = reg_cache.get((a, b))
+        if v is None:
+            p = blend.predict(a, b, neutral=True)   # eliminatoria = sede neutral
+            v = (p.p_home, p.p_draw, p.p_away)
+            reg_cache[(a, b)] = v
+        return v
+
+    def penprob(a, b):  # P(a gana la definición por penales) según temple histórico
+        v = pen_cache.get((a, b))
+        if v is None:
+            sa, sb = pen_skill(a), pen_skill(b)
+            v = sa / (sa + sb)
+            pen_cache[(a, b)] = v
+        return v
+
+    @lru_cache(maxsize=None)
+    def thirds_for(q):
+        return assign_thirds(q)
+
+    def team_of(slot, tie_id, i, tw, tassign):
+        k = slot[0]
+        if k == "W":
+            return winner_arr[slot[1]][i]
+        if k == "R":
+            return runnerup_arr[slot[1]][i]
+        if k == "T":
+            return third_arr[tassign[tie_id]][i]
+        return tw[slot[1]]  # WinnerOf
+
+    U = rng.random((n, 2 * len(KO_TIES) + 2))
+    for i in range(n):
+        qualified = tuple(gnames[gi] for gi in range(len(gnames)) if advances[gi, i])
+        tassign = thirds_for(qualified)
+        tw, dptr = {}, 0
+        for tie_id, sa, sb in KO_TIES:
+            a = team_of(sa, tie_id, i, tw, tassign)
+            b = team_of(sb, tie_id, i, tw, tassign)
+            pa, _pd, pb = regprob(a, b)
+            u = U[i, dptr]; dptr += 1
+            if u < pa:
+                w = a
+            elif u < pa + pb:
+                w = b
+            else:  # empate en regulación → penales (factor presión)
+                up = U[i, dptr]; dptr += 1
+                w = a if up < penprob(a, b) else b
+            tw[tie_id] = w
+        for tid in R32_IDS:
+            ko[tw[tid]]["r16"] += 1
+        for tid in R16_IDS:
+            ko[tw[tid]]["qf"] += 1
+        for tid in QF_IDS:
+            ko[tw[tid]]["sf"] += 1
+        for tid in SF_IDS:
+            ko[tw[tid]]["final"] += 1
+        ko[tw[104]]["champ"] += 1
+
+    for t in ko:
+        for kk in ko[t]:
+            ko[t][kk] /= n
+
     for t, r in agg.items():
         for k in ("p1", "p2", "p3", "p4", "q_top2", "q_third"):
             r[k] /= n
@@ -220,11 +379,11 @@ def run(blend, blend_pre, groups: dict, lookup: dict, hosts: list[str], n: int, 
         r["rank"] /= n
         r["qualify"] = r["q_top2"] + r["q_third"]
 
-    return agg, matches_out, gnames, track
+    return agg, matches_out, gnames, track, ko
 
 
 # --------------------------------------------------------------------------- #
-def build_payload(agg, matches_out, gnames, groups, elo, cfg, track):
+def build_payload(agg, matches_out, gnames, groups, elo, cfg, track, ko):
     out_groups = []
     for g in gnames:
         teams = sorted(groups[g], key=lambda t: agg[t]["rank"])  # posición final esperada
@@ -236,10 +395,18 @@ def build_payload(agg, matches_out, gnames, groups, elo, cfg, track):
                 "p_first": round(r["p1"], 3), "p_second": round(r["p2"], 3),
                 "p_third": round(r["p3"], 3), "p_fourth": round(r["p4"], 3),
                 "p_top2": round(r["q_top2"], 3), "p_third_adv": round(r["q_third"], 3),
-                "p_qualify": round(r["qualify"], 3),
+                "p_qualify": round(r["qualify"], 3), "p_champion": round(ko[t]["champ"], 3),
                 "exp_points": round(r["pts"], 2), "exp_gd": round(r["gd"], 2),
             })
         out_groups.append({"group": g, "teams": rows, "matches": matches_out[g]})
+
+    all_teams = [t for g in gnames for t in groups[g]]
+    title_race = sorted(
+        ({"team": t, "elo": int(round(elo.get(t, 1500))),
+          "p_champion": round(ko[t]["champ"], 4), "p_final": round(ko[t]["final"], 3),
+          "p_sf": round(ko[t]["sf"], 3), "p_qf": round(ko[t]["qf"], 3),
+          "p_r16": round(ko[t]["r16"], 3)} for t in all_teams),
+        key=lambda x: -x["p_champion"])
 
     n_played = len(track)
     correct = sum(1 for t in track if t["correct"])
@@ -255,6 +422,7 @@ def build_payload(agg, matches_out, gnames, groups, elo, cfg, track):
         },
         "groups": out_groups,
         "played": track,
+        "title_race": title_race,
     }
 
 
@@ -317,11 +485,12 @@ def main() -> None:
             d = post.get(t, 1500) - pre.get(t, 1500)
             print(f"  {t:<24} {pre.get(t,1500):>7.1f} → {post.get(t,1500):>7.1f}  ({d:+.1f})")
 
+    pen_skill = load_pen_skill(cfg)
     n, seed = cfg["simulation"]["n_sims"], cfg["simulation"]["seed"]
-    print(f"\nSimulando {n:,} veces la fase de grupos (condicionada + modelo actualizado)…")
-    agg, matches_out, gnames, track = run(blend_post, blend_pre, groups, lookup, hosts, n, seed, actuals)
+    print(f"\nSimulando {n:,} torneos completos (grupos + eliminatorias hasta la final)…")
+    agg, matches_out, gnames, track, ko = run(blend_post, blend_pre, groups, lookup, hosts, n, seed, actuals, pen_skill)
 
-    payload = build_payload(agg, matches_out, gnames, groups, elo, cfg, track)
+    payload = build_payload(agg, matches_out, gnames, groups, elo, cfg, track, ko)
     web_dir = PROJECT_ROOT / cfg["simulation"]["web_dir"]
     render_html(payload, web_dir)
 
@@ -335,6 +504,10 @@ def main() -> None:
             print(f"  {tag} {t['pos']}. {t['team']:<22} "
                   f"clasifica {t['p_qualify']:>5.0%} | gana grupo {t['p_first']:>4.0%} | "
                   f"pts {t['exp_points']:.1f}")
+    print(f"\n{line}\nCAMINO AL TÍTULO — top favoritos a campeón\n{line}")
+    for t in payload["title_race"][:12]:
+        print(f"  {t['p_champion']:>6.1%} campeón · final {t['p_final']:>5.1%} · semis {t['p_sf']:>5.1%} · {t['team']}")
+
     if track:
         m = payload["meta"]
         print(f"\n{line}\nTRACKER EN VIVO — predicción vs realidad ({m['n_played']} jugados)\n{line}")

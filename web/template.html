@@ -141,6 +141,27 @@
   .tnote{font-size:12px; color:var(--muted); margin:-4px 0 14px; display:flex; align-items:center; gap:7px}
   .tnote::before{content:"↻"; color:var(--amber); font-size:14px}
 
+  /* ---------- CAMINO AL TÍTULO ---------- */
+  .trace{max-width:1280px; margin:22px auto 0; padding:0 26px}
+  .tbx{background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line);
+    border-radius:16px; padding:20px 22px; position:relative; overflow:hidden}
+  .tbx::before{content:""; position:absolute; inset:0 0 auto 0; height:3px;
+    background:linear-gradient(90deg,var(--lime),transparent 65%)}
+  .trace h2{font-family:var(--display); font-weight:900; font-size:clamp(26px,4vw,38px);
+    letter-spacing:.02em; text-transform:uppercase; line-height:1}
+  .trace .cap{color:var(--muted); font-size:13px; margin:6px 0 18px; max-width:760px}
+  .trgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:2px 26px}
+  .trrow{display:grid; grid-template-columns:24px 22px 1fr 96px 64px; align-items:center; gap:11px; padding:8px 4px}
+  .trrow .pos{font-family:var(--mono); font-size:12px; color:var(--faint); text-align:center}
+  .trrow .nm{font-weight:600; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .trsub{font-family:var(--mono); font-size:9.5px; color:var(--faint); margin-top:1px}
+  .trbar{height:9px; border-radius:5px; background:rgba(255,255,255,.05); overflow:hidden}
+  .trbar span{display:block; height:100%; width:0; border-radius:5px;
+    background:linear-gradient(90deg,#9ee84f,var(--lime)); transition:width 1s cubic-bezier(.2,.7,.2,1)}
+  .trpct{font-family:var(--mono); font-weight:700; font-size:16px; text-align:right; color:var(--lime)}
+  .trrow.top1 .nm,.trrow.top2 .nm,.trrow.top3 .nm{color:var(--lime)}
+  .trrow.top1 .pos{color:var(--lime)}
+
   footer{max-width:1280px; margin:0 auto; padding:0 26px 60px; color:var(--faint); font-size:12px;
     border-top:1px solid var(--line); padding-top:22px; display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
   footer b{color:var(--muted); font-weight:600}
@@ -164,6 +185,7 @@
   <span class="sw" style="color:var(--amber)">★ anfitrión / localía</span>
 </div>
 <section class="tracker" id="tracker"></section>
+<section class="trace" id="titlerace"></section>
 <main id="board"></main>
 <footer id="foot"></footer>
 
@@ -216,6 +238,28 @@ if (DATA.played && DATA.played.length){
     </div>
     <div class="tnote">Las predicciones de los partidos que faltan ya incorporan estos resultados (Elo actualizado).</div>
     <div class="rchips">${chips}</div>
+  </div>`;
+}
+
+// carrera al título (probabilidad de campeón)
+const trc = document.getElementById("titlerace");
+if (DATA.title_race && DATA.title_race.length){
+  const top = DATA.title_race.slice(0, 16);
+  const maxc = top[0].p_champion || 1;
+  const rows = top.map((t, i) => `
+    <div class="trrow top${i+1}">
+      <span class="pos">${i+1}</span>
+      <span class="flag">${flag(t.team)}</span>
+      <span><span class="nm">${t.team}</span><div class="trsub">final ${pct(t.p_final)} · semis ${pct(t.p_sf)}</div></span>
+      <div class="trbar"><span data-w="${(t.p_champion/maxc*100).toFixed(1)}"></span></div>
+      <span class="trpct">${(t.p_champion*100).toFixed(1)}%</span>
+    </div>`).join("");
+  trc.innerHTML = `<div class="tbx">
+    <h2>🏆 Camino al título</h2>
+    <div class="cap">Probabilidad de ser campeón del mundo, simulando ${DATA.meta.n_sims.toLocaleString('es')} torneos completos
+      (fase de grupos + eliminatorias hasta la final; los empates en eliminación se resuelven por penales
+      ponderados según el historial de definiciones de cada selección).</div>
+    <div class="trgrid">${rows}</div>
   </div>`;
 }
 
@@ -296,7 +340,7 @@ document.getElementById("foot").innerHTML = `
 requestAnimationFrame(() => {
   document.querySelectorAll(".card").forEach(c => c.classList.add("show"));
   setTimeout(() => {
-    document.querySelectorAll(".posbar span").forEach(s => { s.style.width = s.dataset.w + "%"; });
+    document.querySelectorAll(".posbar span, .trbar span").forEach(s => { s.style.width = s.dataset.w + "%"; });
   }, 220);
 });
 </script>

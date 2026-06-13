@@ -80,7 +80,7 @@ flowchart LR
 | 3 | [`model.py`](src/model.py) | Modelo **Dixon-Coles** + un *zoo* de predictores con interfaz común (`Uniforme`, `Elo`, `Dixon-Coles`, `Blend`) y cascada de *fallback*; produce 1X2 + marcador + over/under. |
 | 4 | [`evaluate.py`](src/evaluate.py) | **Backtest walk-forward** y métricas (RPS, Brier, log-loss, accuracy, calibración). |
 | 5 | [`tune.py`](src/tune.py) | Optimiza los pesos del blend y el afilado minimizando el RPS (post-hoc, sin re-entrenar). |
-| 6 | [`simulate.py`](src/simulate.py) | **Monte Carlo** de la fase de grupos (20.000 torneos) + genera el front + loop de resultados reales. |
+| 6 | [`simulate.py`](src/simulate.py) | **Monte Carlo** del torneo completo (20.000): grupos + **eliminatorias hasta la final** → probabilidad de campeón; genera el front + loop de resultados reales. |
 
 ---
 
@@ -105,12 +105,20 @@ Lo que diferencia este proyecto es que cada decisión está respaldada por evide
 
 ---
 
-## 🏟️ Simulación de la fase de grupos + front
+## 🏟️ Simulación del torneo + front
 
 `simulate.py` corre **20.000 simulaciones de Monte Carlo** de los 12 grupos: muestrea los marcadores
 de cada partido, arma las tablas con los **desempates oficiales FIFA** (puntos → diferencia de gol →
 goles a favor) y resuelve la clasificación (los 2 primeros de cada grupo + los **8 mejores terceros**,
 formato 2026). De ahí salen las probabilidades de ganar el grupo, clasificar, y los puntos esperados.
+
+Sobre los clasificados, el mismo motor juega el **bracket oficial 2026** (32avos → octavos → cuartos →
+semis → final, con la asignación de los 8 mejores terceros a sus cruces) hasta coronar campeón. Los
+partidos de eliminación **no admiten empate**: si igualan en regulación van a **penales**, y ahí pesa
+el **temple de cada selección** — se usa su historial real de definiciones por penales (`shootouts.csv`,
+con *shrinkage* hacia 50 % para las de pocos datos). Resultado: la **probabilidad de campeón / finalista /
+semifinalista** de cada equipo, que encabeza el front en el panel **Camino al título**
+(p. ej. 🇦🇷 Argentina ~15 %, 🇪🇸 España ~13 %, 🇧🇷 Brasil ~12 %).
 
 El resultado se vuelca en **`index.html`** (en la raíz del repo, para que **GitHub Pages** lo sirva),
 una página **autocontenida** (datos embebidos, sin servidor ni conexión) que **se abre con doble clic**. Diseño tipo *broadcast* deportivo, con la barra
@@ -202,7 +210,7 @@ El proyecto se apoya conceptualmente en la literatura de modelos de Poisson para
 
 ## 🗺️ Roadmap
 
-- [ ] Simulación de las **eliminatorias** (bracket completo) → probabilidad de campeón.
+- [x] Simulación de las **eliminatorias** (bracket completo) → probabilidad de campeón.
 - [ ] **Lesiones / disponibilidad** como feature de ajuste (vía API o carga manual).
 - [ ] Factor **hinchada** para selecciones grandes (no por cercanía geográfica).
 - [ ] Testear el efecto **"partido inaugural"** sobre históricos.
